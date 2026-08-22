@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Search, Star, DollarSign, Globe, Filter, Plus, MapPin, Sparkles } from 'lucide-react'
 import DestinationCard from '../components/DestinationCard'
 import InteractiveMap from '../components/InteractiveMap'
+import CuisineGuide from '../components/CuisineGuide'
 import { useApp } from '../context/AppContext'
 
 const REGIONS = ['All', 'India', 'Europe', 'Asia', 'Americas', 'Middle East']
@@ -137,6 +138,11 @@ export default function CitySearch() {
           {filtered.map(city => <DestinationCard key={city.id} city={city} />)}
         </div>
       )}
+
+      {/* Regional Cuisine & Street Food Guide */}
+      <div style={{ marginTop: 'var(--space-10)' }}>
+        <CuisineGuide />
+      </div>
     </div>
   )
 }
