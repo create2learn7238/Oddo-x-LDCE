@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Globe, Mail, Lock, User, Eye, EyeOff, ArrowRight, Check } from 'lucide-react'
+import { Globe, Mail, Lock, User, Eye, EyeOff, ArrowRight, Check, Shield } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import { registerUser } from '../utils/auth'
 
@@ -53,35 +53,36 @@ export default function Signup() {
     }
   }
 
-  const field = (key, value, onChange) => {
+  const field = (key, value) => {
     setForm(f => ({ ...f, [key]: value }))
     if (errors[key]) setErrors(e => ({ ...e, [key]: '' }))
-    onChange && onChange(value)
   }
 
   return (
     <div className="auth-card animate-scaleIn">
+      {/* Brand Header */}
       <div className="auth-logo">
         <div className="auth-logo-icon">
-          <Globe size={24} color="#fff" />
+          <Globe size={26} color="#fff" />
         </div>
         <span className="auth-logo-text">GlobeTrotter</span>
       </div>
 
-      <h2 className="auth-title">Create your account</h2>
-      <p className="auth-subtitle">Start planning your dream trips today</p>
+      <h2 className="auth-title">Create Explorer Account</h2>
+      <p className="auth-subtitle">Join thousands planning Gujarat & Global expeditions</p>
 
       {serverError && (
         <div style={{
           background: 'var(--color-danger-bg)',
-          border: '1px solid rgba(255,77,109,0.3)',
+          border: '1px solid rgba(239, 68, 68, 0.4)',
           borderRadius: 'var(--radius-md)',
           padding: 'var(--space-3) var(--space-4)',
           color: 'var(--color-danger)',
-          fontSize: 'var(--fs-sm)',
+          fontSize: 'var(--fs-xs)',
+          fontWeight: 600,
           marginBottom: 'var(--space-4)',
         }}>
-          {serverError}
+          ⚠️ {serverError}
         </div>
       )}
 
@@ -90,120 +91,138 @@ export default function Signup() {
         <div className="form-group">
           <label className="form-label" htmlFor="signup-name">Full Name</label>
           <div style={{ position: 'relative' }}>
-            <User size={16} style={{ position:'absolute',left:14,top:'50%',transform:'translateY(-50%)',color:'var(--color-text-faint)',pointerEvents:'none' }} />
+            <User size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-faint)', pointerEvents: 'none' }} />
             <input
               id="signup-name"
               type="text"
               className={`form-input ${errors.name ? 'error' : ''}`}
-              style={{ paddingLeft: 40 }}
+              style={{ paddingLeft: 42 }}
               placeholder="Jane Doe"
               value={form.name}
               onChange={e => field('name', e.target.value)}
               autoComplete="name"
             />
           </div>
-          {errors.name && <span style={{ color:'var(--color-danger)',fontSize:'var(--fs-xs)' }}>{errors.name}</span>}
+          {errors.name && <span style={{ color: 'var(--color-danger)', fontSize: 'var(--fs-xs)', fontWeight: 600 }}>{errors.name}</span>}
         </div>
 
         {/* Email */}
         <div className="form-group">
-          <label className="form-label" htmlFor="signup-email">Email address</label>
+          <label className="form-label" htmlFor="signup-email">Email Address</label>
           <div style={{ position: 'relative' }}>
-            <Mail size={16} style={{ position:'absolute',left:14,top:'50%',transform:'translateY(-50%)',color:'var(--color-text-faint)',pointerEvents:'none' }} />
+            <Mail size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-faint)', pointerEvents: 'none' }} />
             <input
               id="signup-email"
               type="email"
               className={`form-input ${errors.email ? 'error' : ''}`}
-              style={{ paddingLeft: 40 }}
+              style={{ paddingLeft: 42 }}
               placeholder="you@example.com"
               value={form.email}
               onChange={e => field('email', e.target.value)}
               autoComplete="email"
             />
           </div>
-          {errors.email && <span style={{ color:'var(--color-danger)',fontSize:'var(--fs-xs)' }}>{errors.email}</span>}
+          {errors.email && <span style={{ color: 'var(--color-danger)', fontSize: 'var(--fs-xs)', fontWeight: 600 }}>{errors.email}</span>}
         </div>
 
         {/* Password */}
         <div className="form-group">
           <label className="form-label" htmlFor="signup-password">Password</label>
           <div style={{ position: 'relative' }}>
-            <Lock size={16} style={{ position:'absolute',left:14,top:'50%',transform:'translateY(-50%)',color:'var(--color-text-faint)',pointerEvents:'none' }} />
+            <Lock size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-faint)', pointerEvents: 'none' }} />
             <input
               id="signup-password"
               type={showPass ? 'text' : 'password'}
               className={`form-input ${errors.password ? 'error' : ''}`}
-              style={{ paddingLeft: 40, paddingRight: 44 }}
+              style={{ paddingLeft: 42, paddingRight: 44 }}
               placeholder="Min. 6 characters"
               value={form.password}
               onChange={e => field('password', e.target.value)}
               autoComplete="new-password"
             />
-            <button type="button" onClick={() => setShowPass(s => !s)} style={{
-              position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',
-              background:'none',border:'none',cursor:'pointer',color:'var(--color-text-faint)',padding:4,
-            }}>
+            <button
+              type="button"
+              onClick={() => setShowPass(s => !s)}
+              style={{
+                position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
+                background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-faint)',
+                padding: 4,
+              }}
+            >
               {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
           </div>
+          {/* Password Strength Indicator */}
           {form.password && (
-            <div style={{ display:'flex',alignItems:'center',gap:'var(--space-2)',marginTop:'var(--space-1)' }}>
-              {[1,2,3,4].map(i => (
-                <div key={i} style={{
-                  flex:1, height:3, borderRadius:'var(--radius-full)',
-                  background: i <= strength ? strengthColor[strength] : 'var(--color-surface3)',
-                  transition:'background var(--transition-base)'
-                }} />
-              ))}
-              <span style={{ fontSize:'var(--fs-xs)',color:strengthColor[strength],minWidth:36,fontWeight:600 }}>
-                {strengthLabel[strength]}
-              </span>
+            <div style={{ marginTop: 4 }}>
+              <div style={{ display: 'flex', gap: 4, marginBottom: 2 }}>
+                {[1, 2, 3, 4].map(step => (
+                  <div
+                    key={step}
+                    style={{
+                      flex: 1,
+                      height: 4,
+                      borderRadius: 2,
+                      background: strength >= step ? strengthColor[strength] : 'var(--color-border)',
+                      transition: 'all 0.3s'
+                    }}
+                  />
+                ))}
+              </div>
+              <div style={{ fontSize: '10px', color: strengthColor[strength], fontWeight: 700, textAlign: 'right' }}>
+                {strengthLabel[strength]} Security
+              </div>
             </div>
           )}
-          {errors.password && <span style={{ color:'var(--color-danger)',fontSize:'var(--fs-xs)' }}>{errors.password}</span>}
+          {errors.password && <span style={{ color: 'var(--color-danger)', fontSize: 'var(--fs-xs)', fontWeight: 600 }}>{errors.password}</span>}
         </div>
 
-        {/* Confirm */}
+        {/* Confirm Password */}
         <div className="form-group">
           <label className="form-label" htmlFor="signup-confirm">Confirm Password</label>
           <div style={{ position: 'relative' }}>
-            <Lock size={16} style={{ position:'absolute',left:14,top:'50%',transform:'translateY(-50%)',color:'var(--color-text-faint)',pointerEvents:'none' }} />
+            <Lock size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-faint)', pointerEvents: 'none' }} />
             <input
               id="signup-confirm"
-              type="password"
+              type={showPass ? 'text' : 'password'}
               className={`form-input ${errors.confirm ? 'error' : ''}`}
-              style={{ paddingLeft: 40, paddingRight: 44 }}
-              placeholder="Repeat password"
+              style={{ paddingLeft: 42 }}
+              placeholder="Confirm password"
               value={form.confirm}
               onChange={e => field('confirm', e.target.value)}
               autoComplete="new-password"
             />
-            {form.confirm && form.password === form.confirm && (
-              <Check size={16} style={{ position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',color:'var(--color-success)' }} />
-            )}
           </div>
-          {errors.confirm && <span style={{ color:'var(--color-danger)',fontSize:'var(--fs-xs)' }}>{errors.confirm}</span>}
+          {errors.confirm && <span style={{ color: 'var(--color-danger)', fontSize: 'var(--fs-xs)', fontWeight: 600 }}>{errors.confirm}</span>}
         </div>
 
+        {/* Submit */}
         <button
           type="submit"
-          id="signup-submit"
-          className="btn btn-primary"
-          style={{ width:'100%',justifyContent:'center',gap:'var(--space-2)',marginTop:'var(--space-2)' }}
+          className="btn btn-primary btn-lg"
+          style={{ width: '100%', marginTop: 'var(--space-2)' }}
           disabled={loading}
+          id="signup-submit"
         >
           {loading ? (
-            <><div className="spinner" style={{ width:16,height:16,borderWidth:2 }} /> Creating account...</>
+            <>
+              <div className="spinner" />
+              Creating Passport Profile...
+            </>
           ) : (
-            <>Create Account <ArrowRight size={16} /></>
+            <>
+              Create Account <ArrowRight size={16} />
+            </>
           )}
         </button>
       </form>
 
-      <p style={{ textAlign:'center',marginTop:'var(--space-6)',fontSize:'var(--fs-sm)',color:'var(--color-text-muted)' }}>
+      <div style={{ textAlign: 'center', marginTop: 'var(--space-6)', fontSize: 'var(--fs-xs)', color: 'var(--color-text-muted)' }}>
         Already have an account?{' '}
-        <Link to="/login" style={{ color:'var(--color-primary-light)',fontWeight:600 }}>Sign in</Link>
-      </p>
+        <Link to="/login" style={{ color: 'var(--color-primary-light)', fontWeight: 700 }}>
+          Sign in here
+        </Link>
+      </div>
     </div>
   )
 }
