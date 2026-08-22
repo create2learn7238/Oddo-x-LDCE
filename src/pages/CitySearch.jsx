@@ -6,6 +6,7 @@ import InteractiveMap from '../components/InteractiveMap'
 import CuisineGuide from '../components/CuisineGuide'
 import FestivalCalendar from '../components/FestivalCalendar'
 import AudioCityGuide from '../components/AudioCityGuide'
+import TravelScavengerHunt from '../components/TravelScavengerHunt'
 import { useApp } from '../context/AppContext'
 
 const REGIONS = ['All', 'India', 'Europe', 'Asia', 'Americas', 'Middle East']
@@ -144,8 +145,13 @@ export default function CitySearch() {
         </div>
       )}
 
-      {/* Gujarat & India Cultural Festivals Calendar */}
+      {/* Gujarat Explorer Scavenger Hunt Quests */}
       <div style={{ marginTop: 'var(--space-10)' }}>
+        <TravelScavengerHunt />
+      </div>
+
+      {/* Gujarat & India Cultural Festivals Calendar */}
+      <div style={{ marginTop: 'var(--space-8)' }}>
         <FestivalCalendar />
       </div>
 
