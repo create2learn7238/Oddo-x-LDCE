@@ -6,12 +6,12 @@ import { useApp } from '../context/AppContext'
 const costColor = { Low: 'var(--color-success)', Medium: 'var(--color-warning)', High: 'var(--color-danger)' }
 
 const FALLBACK_IMAGES = {
-  'c_kutch': 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=800&auto=format&fit=crop&q=80',
-  'c_statue_of_unity': 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&auto=format&fit=crop&q=80',
-  'c_somnath': 'https://images.unsplash.com/photo-1609766857041-ed402ea8069a?w=800&auto=format&fit=crop&q=80',
-  'c_ahmedabad': 'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?w=800&auto=format&fit=crop&q=80',
-  'c_gir': 'https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=800&auto=format&fit=crop&q=80',
-  default: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80'
+  'c_kutch': '/destinations/rann_of_kutch.jpg',
+  'c_statue_of_unity': '/destinations/statue_of_unity.jpg',
+  'c_gir': '/destinations/gir_lions.jpg',
+  'c_somnath': '/destinations/somnath_temple.jpg',
+  'c_dwarka': '/destinations/dwarka_temple.jpg',
+  default: '/destinations/rann_of_kutch.jpg'
 }
 
 export default function DestinationCard({ city }) {

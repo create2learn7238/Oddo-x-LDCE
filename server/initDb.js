@@ -137,7 +137,7 @@ async function initDatabase() {
       {
         id: 'c_kutch', name: 'Rann of Kutch', state: 'Gujarat', country: 'India', region: 'India',
         emoji: '🏜️', costIndex: 'Medium', popularity: 98,
-        image: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=800&q=80',
+        image: '/destinations/rann_of_kutch.jpg',
         description: 'The world-famous Great Rann of Kutch with its endless white salt desert, Rann Utsav cultural tent city, stargazing, Bhuj palaces, and exquisite Rogan art.',
         avgDailyCost: 65,
         tags: ['Desert', 'Festival', 'Stargazing', 'Handicrafts', 'Photography'],
@@ -146,7 +146,7 @@ async function initDatabase() {
       {
         id: 'c_statue_of_unity', name: 'Statue of Unity (Kevadia)', state: 'Gujarat', country: 'India', region: 'India',
         emoji: '🗽', costIndex: 'Medium', popularity: 97,
-        image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&q=80',
+        image: '/destinations/statue_of_unity.jpg',
         description: "The world's tallest statue (182m) honoring Sardar Vallabhbhai Patel, surrounded by the Narmada River, Valley of Flowers, Jungle Safari, and Laser Light Show.",
         avgDailyCost: 55,
         tags: ['Monument', 'Family', 'Nature', 'River Cruise', 'Modern Marvel'],
@@ -155,7 +155,7 @@ async function initDatabase() {
       {
         id: 'c_gir', name: 'Gir National Park', state: 'Gujarat', country: 'India', region: 'India',
         emoji: '🦁', costIndex: 'Medium', popularity: 95,
-        image: 'https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=800&q=80',
+        image: '/destinations/gir_lions.jpg',
         description: 'The only natural habitat in the world of the majestic Asiatic Lion. Thrilling open-jeep wildlife safaris, birdwatching, and Malkangiri tribal culture.',
         avgDailyCost: 60,
         tags: ['Wildlife', 'Safari', 'Lions', 'Nature', 'Ecotourism'],
@@ -164,7 +164,7 @@ async function initDatabase() {
       {
         id: 'c_somnath', name: 'Somnath', state: 'Gujarat', country: 'India', region: 'India',
         emoji: '🕉️', costIndex: 'Low', popularity: 94,
-        image: 'https://images.unsplash.com/photo-1609766857041-ed402ea8069a?w=800&q=80',
+        image: '/destinations/somnath_temple.jpg',
         description: 'The first among the twelve holy Jyotirlinga shrines of Lord Shiva, perched right on the Arabian Sea shore with breathtaking evening sound-and-light shows.',
         avgDailyCost: 30,
         tags: ['Spiritual', 'Pilgrimage', 'Sea Beach', 'History', 'Sacred'],
@@ -173,7 +173,7 @@ async function initDatabase() {
       {
         id: 'c_dwarka', name: 'Dwarka', state: 'Gujarat', country: 'India', region: 'India',
         emoji: '🛕', costIndex: 'Low', popularity: 93,
-        image: 'https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80',
+        image: '/destinations/dwarka_temple.jpg',
         description: 'The ancient kingdom of Lord Krishna, one of the sacred Char Dham pilgrimage sites, featuring Dwarkadhish Temple, Bet Dwarka island, and Shivrajpur Blue Flag Beach.',
         avgDailyCost: 32,
         tags: ['Spiritual', 'Char Dham', 'Scuba Diving', 'Beaches', 'History'],

@@ -5,9 +5,9 @@ const GALLERY_ITEMS = [
   {
     title: 'Great Rann of Kutch',
     location: 'Dhordo, Kutch, Gujarat',
-    image: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=1000&auto=format&fit=crop&q=80',
+    image: '/destinations/rann_of_kutch.jpg',
     fallbackGrad: 'linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4338CA 100%)',
-    caption: 'Full-moon starlight reflecting across the boundless white salt plains.',
+    caption: 'Sunset camel caravan across the infinite white salt plains of Dhordo.',
     stamp: 'KUTCH · DESERT SAFARI',
     stampColor: '#F59E0B',
     tag: 'White Desert'
@@ -15,9 +15,9 @@ const GALLERY_ITEMS = [
   {
     title: 'Asiatic Lions in Sasan Gir',
     location: 'Gir Forest National Park, Gujarat',
-    image: 'https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=1000&auto=format&fit=crop&q=80',
+    image: '/destinations/gir_lions.jpg',
     fallbackGrad: 'linear-gradient(135deg, #064E3B 0%, #047857 50%, #059669 100%)',
-    caption: 'Majestic Asiatic Lioness patrolling her sanctuary in golden forest sunlight.',
+    caption: 'Majestic Asiatic Lion resting proudly in the golden teak forest sanctuary.',
     stamp: 'GIR FOREST · WILD RESERVE',
     stampColor: '#10B981',
     tag: 'Wildlife Safari'
@@ -25,7 +25,7 @@ const GALLERY_ITEMS = [
   {
     title: 'Statue of Unity & Narmada',
     location: 'Ekta Nagar, Kevadia, Gujarat',
-    image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1000&auto=format&fit=crop&q=80',
+    image: '/destinations/statue_of_unity.jpg',
     fallbackGrad: 'linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 50%, #3B82F6 100%)',
     caption: '182-meter monumental colossus overlooking the Sardar Sarovar reservoir.',
     stamp: 'UNITY · 182 METERS',
@@ -33,24 +33,24 @@ const GALLERY_ITEMS = [
     tag: 'World Record'
   },
   {
-    title: 'Adalaj Stepwell (Vav)',
-    location: 'Adalaj, Gandhinagar, Gujarat',
-    image: 'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?w=1000&auto=format&fit=crop&q=80',
-    fallbackGrad: 'linear-gradient(135deg, #831843 0%, #BE185D 50%, #DB2777 100%)',
-    caption: '5-story subterranean Solanki-era Indo-Islamic carved stone marvel.',
-    stamp: 'UNESCO · SOLANKI HERITAGE',
-    stampColor: '#EC4899',
-    tag: 'Ancient Architecture'
-  },
-  {
     title: 'Somnath Shore Temple',
     location: 'Prabhas Patan, Veraval, Gujarat',
-    image: 'https://images.unsplash.com/photo-1609766857041-ed402ea8069a?w=1000&auto=format&fit=crop&q=80',
+    image: '/destinations/somnath_temple.jpg',
     fallbackGrad: 'linear-gradient(135deg, #4C1D95 0%, #6D28D9 50%, #7C3AED 100%)',
-    caption: 'Sacred Jyotirlinga shrine standing resilient against roaring Arabian Sea tides.',
+    caption: 'Ancient Jyotirlinga shrine standing resilient against crashing Arabian Sea waves.',
     stamp: 'SOMNATH · JYOTIRLINGA',
     stampColor: '#8B5CF6',
     tag: 'Ocean Temple'
+  },
+  {
+    title: 'Dwarkadhish Jagat Mandir',
+    location: 'Dwarka Coast, Gujarat',
+    image: '/destinations/dwarka_temple.jpg',
+    fallbackGrad: 'linear-gradient(135deg, #831843 0%, #BE185D 50%, #DB2777 100%)',
+    caption: '5-story ancient temple spire on Gomti Ghat with 52-yard sacred flag.',
+    stamp: 'DWARKA · CHAR DHAM',
+    stampColor: '#EC4899',
+    tag: 'Sacred Kingdom'
   }
 ]
 
@@ -76,9 +76,9 @@ export default function SkeuoPhotoGallery() {
       style={{
         padding: 'var(--space-6)',
         marginBottom: 'var(--space-8)',
-        background: 'linear-gradient(180deg, rgba(28, 24, 18, 0.95) 0%, rgba(16, 13, 10, 0.98) 100%)',
-        border: '2px solid rgba(245, 158, 11, 0.25)',
-        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.2), inset 0 0 20px rgba(0,0,0,0.8), 0 16px 48px -12px rgba(0,0,0,0.8)'
+        background: 'var(--grad-card)',
+        border: '1px solid var(--color-border)',
+        boxShadow: 'var(--skeuo-shadow-card)'
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -86,12 +86,12 @@ export default function SkeuoPhotoGallery() {
       {/* Header */}
       <div className="flex-between" style={{ marginBottom: 'var(--space-4)', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
         <div>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--fs-xl)', display: 'flex', alignItems: 'center', gap: 8, color: '#FBBF24', textShadow: '0 2px 4px rgba(0,0,0,0.6)' }}>
-            <Camera size={22} color="#FBBF24" />
-            Tactile Polaroid Travel Gallery & Highlights
+          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--fs-xl)', display: 'flex', alignItems: 'center', gap: 8, color: 'var(--color-primary-light)' }}>
+            <Camera size={22} color="var(--color-primary-light)" />
+            Authentic Gujarat Travel Gallery & Highlights
           </h3>
           <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--fs-xs)', marginTop: 2 }}>
-            Realistic physical Polaroid film slides with vintage travel passport stamps
+            Real photographic memories & highlights with vintage traveler passport stamps
           </p>
         </div>
 
@@ -126,9 +126,9 @@ export default function SkeuoPhotoGallery() {
           transform: 'translateX(-50%) rotate(2deg)',
           width: 110,
           height: 26,
-          background: 'rgba(255, 245, 205, 0.65)',
+          background: 'rgba(255, 245, 205, 0.75)',
           backdropFilter: 'blur(4px)',
-          border: '1px solid rgba(255,255,255,0.4)',
+          border: '1px solid rgba(255,255,255,0.5)',
           boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
           zIndex: 10
         }} />
@@ -176,7 +176,7 @@ export default function SkeuoPhotoGallery() {
           <div style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 40%, rgba(0,0,0,0.4) 100%)',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 40%, rgba(0,0,0,0.3) 100%)',
             pointerEvents: 'none'
           }} />
 
@@ -228,7 +228,7 @@ export default function SkeuoPhotoGallery() {
               {item.title}
             </h4>
             <div style={{ fontSize: '12px', color: '#656D76', display: 'flex', alignItems: 'center', gap: 4, marginTop: 2 }}>
-              <MapPin size={12} color="#D97706" /> {item.location}
+              <MapPin size={12} color="var(--color-primary)" /> {item.location}
             </div>
             <p style={{ color: '#4B5563', fontSize: '13px', fontStyle: 'italic', marginTop: 4 }}>
               "{item.caption}"
