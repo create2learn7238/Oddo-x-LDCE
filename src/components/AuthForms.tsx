@@ -8,35 +8,35 @@ const DEMO_ACCOUNTS = [
   {
     id: 'aarav',
     name: 'Aarav Sharma',
-    role: 'Gujarat & Heritage Explorer',
-    badge: '3 Trips Planned',
+    role: 'Gujarat Explorer',
+    badge: '3 Trips',
     emoji: '🦁',
     email: 'demo@globetrotter.app',
     password: 'demo123',
     color: 'from-teal-600 to-emerald-700',
-    border: 'hover:border-teal-400',
+    border: 'hover:border-teal-500 hover:bg-teal-50/40',
   },
   {
     id: 'priya',
     name: 'Priya Patel',
-    role: 'Solo Backpacker & Nature Nomad',
-    badge: '2 Trips Planned',
+    role: 'Solo Backpacker',
+    badge: '2 Trips',
     emoji: '🎒',
     email: 'priya@globetrotter.app',
     password: 'demo123',
     color: 'from-amber-600 to-orange-700',
-    border: 'hover:border-amber-400',
+    border: 'hover:border-amber-500 hover:bg-amber-50/40',
   },
   {
     id: 'admin',
     name: 'Globe Admin',
-    role: 'Platform Administrator',
+    role: 'Administrator',
     badge: 'Admin Access',
     emoji: '👑',
     email: 'admin@globetrotter.app',
     password: 'admin123',
     color: 'from-indigo-600 to-purple-700',
-    border: 'hover:border-indigo-400',
+    border: 'hover:border-indigo-500 hover:bg-indigo-50/40',
   },
 ];
 
@@ -109,23 +109,92 @@ function AuthFormInner({ mode }: { mode: 'login' | 'signup' | 'forgot' }) {
   };
 
   return (
-    <div className="space-y-6">
-      <form ref={formRef} onSubmit={submit} className="space-y-4">
+    <div className="space-y-5">
+      
+      {/* 1-Click Demo Logins Section (Displayed Prominently on Login) */}
+      {mode === 'login' && (
+        <div className="space-y-2.5 pb-4 border-b border-slate-200">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+              <i className="bi bi-lightning-charge-fill text-amber-500 text-sm"></i>
+              <span>Instant 1-Click Demo Logins</span>
+            </span>
+            <span className="text-[10px] text-teal-700 font-bold px-2 py-0.5 rounded-full bg-teal-50 border border-teal-200">
+              Pre-loaded Data
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            {DEMO_ACCOUNTS.map((acc) => (
+              <button
+                key={acc.id}
+                type="button"
+                onClick={() => handle1ClickLogin(acc.email, acc.password, acc.name)}
+                disabled={busy}
+                className={`p-2.5 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between text-left group ${acc.border}`}
+              >
+                <div className="flex items-center justify-between w-full mb-2">
+                  <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${acc.color} text-white flex items-center justify-center text-base shadow-sm group-hover:scale-110 transition-transform`}>
+                    {acc.emoji}
+                  </div>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-600">
+                    {acc.badge}
+                  </span>
+                </div>
+
+                <div>
+                  <div className="text-xs font-black text-slate-900 leading-tight group-hover:text-teal-700 transition-colors">
+                    {acc.name.split(' ')[0]}
+                  </div>
+                  <div className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">
+                    {acc.role}
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <div className="relative flex items-center justify-center my-3">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-200"></div>
+            </div>
+            <span className="relative px-3 bg-white text-[11px] font-bold uppercase tracking-wider text-slate-400">
+              Or with credentials
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Main Form Fields */}
+      <form ref={formRef} onSubmit={submit} className="space-y-3.5">
         {mode === 'signup' && (
-          <div className="field">
-            <label className="label text-xs font-bold uppercase tracking-wider text-slate-700">Full name</label>
-            <input className="input" name="name" placeholder="Aarav Sharma" required />
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Full Name</label>
+            <input
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-teal-500 focus:outline-none bg-white"
+              name="name"
+              placeholder="Aarav Sharma"
+              required
+            />
           </div>
         )}
-        <div className="field">
-          <label className="label text-xs font-bold uppercase tracking-wider text-slate-700">Email Address</label>
-          <input className="input" name="email" type="email" placeholder="you@example.com" required />
+
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Email Address</label>
+          <input
+            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-teal-500 focus:outline-none bg-white"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            required
+          />
         </div>
+
         {mode !== 'forgot' && (
-          <div className="field">
-            <label className="label text-xs font-bold uppercase tracking-wider text-slate-700">Password</label>
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Password</label>
             <input
-              className="input"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-teal-500 focus:outline-none bg-white"
               name="password"
               type="password"
               placeholder={mode === 'signup' ? 'At least 6 characters' : '••••••••'}
@@ -135,15 +204,38 @@ function AuthFormInner({ mode }: { mode: 'login' | 'signup' | 'forgot' }) {
           </div>
         )}
 
-        {error && <p className="err mb-4">{error}</p>}
+        {error && (
+          <p className="p-2.5 rounded-xl bg-red-50 text-red-700 text-xs font-semibold border border-red-200 flex items-center gap-1.5">
+            <i className="bi bi-exclamation-circle-fill"></i> {error}
+          </p>
+        )}
+        
         {info && (
-          <p className="mb-4 p-3 rounded-2xl bg-teal-50 text-teal-800 text-xs font-semibold border border-teal-200">
-            {info}
+          <p className="p-2.5 rounded-xl bg-teal-50 text-teal-800 text-xs font-semibold border border-teal-200 flex items-center gap-1.5">
+            <i className="bi bi-check-circle-fill"></i> {info}
           </p>
         )}
 
-        <button className="btn btn-primary btn-lg w-full" disabled={busy}>
-          {busy ? 'Logging in…' : mode === 'login' ? 'Log in' : mode === 'signup' ? 'Create account' : 'Send reset link'}
+        <button
+          type="submit"
+          className="w-full py-3 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white font-bold text-xs rounded-xl shadow-md shadow-teal-600/30 transition-all hover:scale-[1.01] flex items-center justify-center gap-2"
+          disabled={busy}
+        >
+          {busy ? (
+            <span>Please wait…</span>
+          ) : mode === 'login' ? (
+            <>
+              <i className="bi bi-box-arrow-in-right text-sm"></i>
+              <span>Log In</span>
+            </>
+          ) : mode === 'signup' ? (
+            <>
+              <i className="bi bi-person-plus-fill text-sm"></i>
+              <span>Create Free Account</span>
+            </>
+          ) : (
+            <span>Send Reset Link</span>
+          )}
         </button>
 
         <div className="flex items-center justify-between text-xs pt-1">
@@ -171,49 +263,6 @@ function AuthFormInner({ mode }: { mode: 'login' | 'signup' | 'forgot' }) {
           )}
         </div>
       </form>
-
-      {/* 3 Dedicated 1-Click Demo Login Options */}
-      {mode === 'login' && (
-        <div className="pt-5 border-t border-slate-200 space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-              <i className="bi bi-lightning-charge-fill text-amber-500"></i> Instant 1-Click Demo Logins
-            </span>
-            <span className="text-[11px] text-teal-700 font-bold">Loaded with Data</span>
-          </div>
-
-          <div className="grid grid-cols-1 gap-2.5">
-            {DEMO_ACCOUNTS.map((acc) => (
-              <button
-                key={acc.id}
-                type="button"
-                onClick={() => handle1ClickLogin(acc.email, acc.password, acc.name)}
-                disabled={busy}
-                className={`w-full p-3 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-between text-left group ${acc.border}`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${acc.color} text-white flex items-center justify-center text-xl shadow-sm group-hover:scale-105 transition-transform`}>
-                    {acc.emoji}
-                  </div>
-                  <div>
-                    <div className="text-xs font-extrabold text-slate-900 font-display flex items-center gap-1.5">
-                      <span>{acc.name}</span>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
-                        {acc.badge}
-                      </span>
-                    </div>
-                    <div className="text-[11px] text-slate-500 font-medium">{acc.role}</div>
-                  </div>
-                </div>
-
-                <div className="w-8 h-8 rounded-full bg-slate-50 group-hover:bg-teal-50 group-hover:text-teal-700 text-slate-400 flex items-center justify-center text-xs transition-colors">
-                  <i className="bi bi-arrow-right font-bold"></i>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
 
       <Toast message={toast} />
     </div>
