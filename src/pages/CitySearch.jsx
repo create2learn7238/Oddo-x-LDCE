@@ -8,6 +8,7 @@ import FestivalCalendar from '../components/FestivalCalendar'
 import AudioCityGuide from '../components/AudioCityGuide'
 import TravelScavengerHunt from '../components/TravelScavengerHunt'
 import LocalEtiquetteAI from '../components/LocalEtiquetteAI'
+import GoldenHourSpotter from '../components/GoldenHourSpotter'
 import { useApp } from '../context/AppContext'
 
 const REGIONS = ['All', 'India', 'Europe', 'Asia', 'Americas', 'Middle East']
@@ -164,6 +165,11 @@ export default function CitySearch() {
       {/* Local Culture, Customs & Etiquette Guide */}
       <div style={{ marginTop: 'var(--space-8)' }}>
         <LocalEtiquetteAI />
+      </div>
+
+      {/* Pro Photography & Golden Hour Spotter */}
+      <div style={{ marginTop: 'var(--space-8)' }}>
+        <GoldenHourSpotter />
       </div>
     </div>
   )

@@ -7,6 +7,7 @@ import DataBackupModal from '../components/DataBackupModal'
 import VisaChecker from '../components/VisaChecker'
 import JetLagPlanner from '../components/JetLagPlanner'
 import TravelBadges from '../components/TravelBadges'
+import DocumentExpiryTracker from '../components/DocumentExpiryTracker'
 import { Database } from 'lucide-react'
 
 export default function Profile() {
@@ -252,6 +253,9 @@ export default function Profile() {
 
           {/* Jet Lag & Timezone Circadian Optimizer */}
           <JetLagPlanner />
+
+          {/* Travel Document & Passport Expiry Tracker */}
+          <DocumentExpiryTracker />
 
           {/* Emergency Contacts & Travel Reference Vault */}
           <EmergencyVault />
