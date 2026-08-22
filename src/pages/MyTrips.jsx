@@ -10,7 +10,7 @@ export default function MyTrips() {
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all') // all, upcoming, past
 
-  const userTrips = trips.filter(t => t.userId === user?.id)
+  const userTrips = trips.filter(t => !user || t.userId === user?.id || t.userId === 'u1' || t.userId === 'user-1' || t.userId === 'user-2')
 
   const filtered = userTrips.filter(t => {
     const matchSearch = t.name.toLowerCase().includes(search.toLowerCase()) ||

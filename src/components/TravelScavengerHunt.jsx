@@ -65,14 +65,13 @@ export default function TravelScavengerHunt() {
   })
 
   const toggleQuest = (id) => {
-    setCompleted(prev => {
-      const next = { ...prev, [id]: !prev[id] }
-      localStorage.setItem('gt_scavenger', JSON.stringify(next))
-      if (next[id]) {
-        showToast('Quest milestone achieved! +Points added to Explorer Profile 🎉', 'success')
-      }
-      return next
-    })
+    const willBeDone = !completed[id]
+    const next = { ...completed, [id]: willBeDone }
+    setCompleted(next)
+    localStorage.setItem('gt_scavenger', JSON.stringify(next))
+    if (willBeDone) {
+      showToast('Quest milestone achieved! +Points added to Explorer Profile 🎉', 'success')
+    }
   }
 
   const completedCount = Object.values(completed).filter(Boolean).length

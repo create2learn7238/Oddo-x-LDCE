@@ -135,13 +135,13 @@ export default function Dashboard() {
             </p>
 
             <div style={{ display: 'flex', gap: 'var(--space-3)', marginTop: 'var(--space-6)', flexWrap: 'wrap' }}>
-              <button className="btn btn-primary" onClick={() => navigate('/trips/create')}>
+              <button className="btn btn-primary" onClick={() => navigate('/trips/new')}>
                 <Plus size={16} /> Plan New Trip
               </button>
               <button className="btn btn-secondary" onClick={() => setShowGenModal(true)}>
                 <Sparkles size={15} color="var(--color-warning)" /> 1-Click Trip Generator
               </button>
-              <button className="btn btn-ghost" onClick={() => navigate('/explore')}>
+              <button className="btn btn-ghost" onClick={() => navigate('/cities')}>
                 <Compass size={15} /> Explore Destinations
               </button>
             </div>
@@ -151,7 +151,7 @@ export default function Dashboard() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-3)', minWidth: 260 }}>
             {[
               { label: 'Planned Trips', val: userTrips.length, icon: '🗺️' },
-              { label: 'Wishlist Places', val: Object.keys(favorites).length, icon: '❤️' },
+              { label: 'Wishlist Places', val: Array.isArray(favorites) ? favorites.length : 0, icon: '❤️' },
               { label: 'Curated Cities', val: cities.length, icon: '🏙️' },
               { label: 'Verified Spots', val: '29+', icon: '🎯' }
             ].map(s => (
