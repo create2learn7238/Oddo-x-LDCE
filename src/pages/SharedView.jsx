@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { Share2, Copy, Calendar, MapPin, DollarSign, ArrowLeft, Check, ExternalLink } from 'lucide-react'
+import QRCodeShare from '../components/QRCodeShare'
 import { useState } from 'react'
 
 function formatDate(d) {
@@ -174,7 +175,8 @@ export default function SharedView() {
               </div>
             )
           })}
-        </div>
+        {/* Shareable QR Code */}
+        <QRCodeShare tripId={trip.id} tripName={trip.name} />
 
         <div style={{ textAlign:'center',marginTop:'var(--space-10)',color:'var(--color-text-faint)',fontSize:'var(--fs-sm)' }}>
           Made with ✈️ <strong style={{ color:'var(--color-primary-light)' }}>GlobeTrotter</strong>
