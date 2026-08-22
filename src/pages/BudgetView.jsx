@@ -8,6 +8,7 @@ import {
 } from 'recharts'
 import ExpenseSplitter from '../components/ExpenseSplitter'
 import BudgetOptimizer from '../components/BudgetOptimizer'
+import BudgetSimulator from '../components/BudgetSimulator'
 
 const COLORS = ['#6C63FF','#FF6584','#43E97B','#F7971E','#38BDF8','#a855f7']
 
@@ -251,6 +252,9 @@ export default function BudgetView() {
 
       {/* Group Travel Expense Splitter */}
       <ExpenseSplitter grandTotal={grandTotal} />
+
+      {/* Interactive Trip Cost What-If Simulator */}
+      <BudgetSimulator trip={trip} />
 
       {/* Breakdown Table */}
       <div className="card" style={{ padding:'var(--space-6)',overflowX:'auto' }}>

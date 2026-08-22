@@ -13,6 +13,7 @@ import CarbonCalculator from '../components/CarbonCalculator'
 import TravelJournal from '../components/TravelJournal'
 import TravelVoucher from '../components/TravelVoucher'
 import BaggageEstimator from '../components/BaggageEstimator'
+import PocketCheatSheet from '../components/PocketCheatSheet'
 
 function formatDate(d) {
   return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' })
@@ -185,6 +186,7 @@ export default function ItineraryView() {
           { id:'carbon',      icon:<span>🌿</span>,          label:'Eco Footprint' },
           { id:'journal',     icon:<span>📖</span>,          label:'Travel Journal' },
           { id:'voucher',     icon:<span>🎫</span>,          label:'Travel Voucher' },
+          { id:'cheatsheet',  icon:<span>📄</span>,          label:'Pocket Cheat-Sheet' },
         ].map(({id,icon,label}) => (
           <button
             key={id}
@@ -440,6 +442,10 @@ export default function ItineraryView() {
 
       {viewMode === 'voucher' && (
         <TravelVoucher trip={trip} user={user} />
+      )}
+
+      {viewMode === 'cheatsheet' && (
+        <PocketCheatSheet trip={trip} user={user} />
       )}
     </div>
   )
