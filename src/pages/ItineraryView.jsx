@@ -14,6 +14,7 @@ import TravelJournal from '../components/TravelJournal'
 import TravelVoucher from '../components/TravelVoucher'
 import BaggageEstimator from '../components/BaggageEstimator'
 import PocketCheatSheet from '../components/PocketCheatSheet'
+import PackingWeatherAI from '../components/PackingWeatherAI'
 
 function formatDate(d) {
   return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' })
@@ -422,6 +423,9 @@ export default function ItineraryView() {
               )
             })}
           </div>
+
+          {/* Climate & Weather-Smart Packing AI */}
+          <PackingWeatherAI />
 
           {/* Smart Baggage Weight Estimator */}
           <BaggageEstimator />

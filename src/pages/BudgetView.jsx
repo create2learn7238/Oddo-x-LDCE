@@ -9,6 +9,7 @@ import {
 import ExpenseSplitter from '../components/ExpenseSplitter'
 import BudgetOptimizer from '../components/BudgetOptimizer'
 import BudgetSimulator from '../components/BudgetSimulator'
+import FuelTollEstimator from '../components/FuelTollEstimator'
 
 const COLORS = ['#6C63FF','#FF6584','#43E97B','#F7971E','#38BDF8','#a855f7']
 
@@ -255,6 +256,9 @@ export default function BudgetView() {
 
       {/* Interactive Trip Cost What-If Simulator */}
       <BudgetSimulator trip={trip} />
+
+      {/* Road Trip Fuel & Fastag Toll Calculator */}
+      <FuelTollEstimator />
 
       {/* Breakdown Table */}
       <div className="card" style={{ padding:'var(--space-6)',overflowX:'auto' }}>
