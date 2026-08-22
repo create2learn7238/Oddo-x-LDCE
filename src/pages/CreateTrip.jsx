@@ -36,7 +36,7 @@ export default function CreateTrip() {
     await new Promise(r => setTimeout(r, 400))
     const newTrip = {
       id: `trip_${Date.now()}`,
-      userId: user.id,
+      userId: user?.id || 'u1',
       name: form.name.trim(),
       description: form.description.trim(),
       startDate: form.startDate,

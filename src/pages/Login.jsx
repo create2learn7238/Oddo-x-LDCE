@@ -101,10 +101,10 @@ export default function Login() {
             <label className="form-label" htmlFor="login-password">Password</label>
             <button
               type="button"
-              onClick={fillDemo}
-              style={{ fontSize: '11px', color: 'var(--color-primary-light)', fontWeight: 700, background: 'none', border: 'none', cursor: 'pointer' }}
+              onClick={() => showToast('Password reset link sent to your registered email! (Demo: use demo123)', 'info')}
+              style={{ fontSize: '11px', color: 'var(--color-primary-light)', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}
             >
-              ⚡ Use Demo Account
+              Forgot Password?
             </button>
           </div>
           <div style={{ position: 'relative' }}>
