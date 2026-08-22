@@ -8,6 +8,7 @@ import VisaChecker from '../components/VisaChecker'
 import JetLagPlanner from '../components/JetLagPlanner'
 import TravelBadges from '../components/TravelBadges'
 import DocumentExpiryTracker from '../components/DocumentExpiryTracker'
+import SafetyFirstAidAI from '../components/SafetyFirstAidAI'
 import { Database } from 'lucide-react'
 
 export default function Profile() {
@@ -259,6 +260,9 @@ export default function Profile() {
 
           {/* Emergency Contacts & Travel Reference Vault */}
           <EmergencyVault />
+
+          {/* Regional Medical & Safety First-Aid Toolkit */}
+          <SafetyFirstAidAI />
         </div>
       )}
 
