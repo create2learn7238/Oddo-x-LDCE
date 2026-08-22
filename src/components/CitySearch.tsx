@@ -98,47 +98,47 @@ function CitySearchInner({ cities, regions, savedIds: initialSaved, initialQ, tr
   };
 
   return (
-    <div className="container">
+    <div className="container-wide">
+      {/* Header Bar */}
       <div className="page-head">
         <div>
-          <h1 className="page-title">City search</h1>
-          <p className="page-sub">{cities.length} destinations across {countries.length} countries — find your next stop.</p>
+          <h1 className="page-title">City Discovery & Exploration</h1>
+          <p className="page-sub">{cities.length} global & regional destinations across {countries.length} countries.</p>
         </div>
         {trip && (
-          <span className="badge badge-teal" style={{ padding: '8px 14px', fontSize: 13 }}>
-            Adding to: {trip.name}
+          <span className="badge badge-teal" style={{ padding: '10px 18px', fontSize: 14 }}>
+            Active Trip: {trip.name}
           </span>
         )}
       </div>
 
-      <div className="card card-pad mb-16" style={{ marginBottom: 18 }}>
-        <div className="row2" style={{ marginBottom: 12 }}>
+      {/* Filter Card */}
+      <div className="card card-pad mb-16" style={{ padding: 24, marginBottom: 24, borderRadius: 20 }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ marginBottom: 16 }}>
           <div className="field" style={{ marginBottom: 0 }}>
-            <label className="label">Search</label>
+            <label className="label">Search Destinations</label>
             <input className="input" placeholder="Search city, country or region…" value={q} onChange={(e) => setQ(e.target.value)} />
           </div>
-          <div className="row2">
-            <div className="field" style={{ marginBottom: 0 }}>
-              <label className="label">Region</label>
-              <select className="select" value={region} onChange={(e) => setRegion(e.target.value)}>
-                <option value="">All regions</option>
-                {regions.map((r) => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
-              </select>
-            </div>
-            <div className="field" style={{ marginBottom: 0 }}>
-              <label className="label">Country</label>
-              <select className="select" value={country} onChange={(e) => setCountry(e.target.value)}>
-                <option value="">All countries</option>
-                {countries.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </div>
+          <div className="field" style={{ marginBottom: 0 }}>
+            <label className="label">Filter Region</label>
+            <select className="select" value={region} onChange={(e) => setRegion(e.target.value)}>
+              <option value="">All Regions</option>
+              {regions.map((r) => (
+                <option key={r} value={r}>{r}</option>
+              ))}
+            </select>
+          </div>
+          <div className="field" style={{ marginBottom: 0 }}>
+            <label className="label">Filter Country</label>
+            <select className="select" value={country} onChange={(e) => setCountry(e.target.value)}>
+              <option value="">All Countries</option>
+              {countries.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
           </div>
         </div>
-        <div className="flex gap-8 wrap">
+        <div className="flex gap-2 wrap">
           {regions.map((r) => (
             <button key={r} className={`chip ${region === r ? 'active' : ''}`} onClick={() => setRegion(region === r ? '' : r)}>
               {r}
@@ -147,73 +147,109 @@ function CitySearchInner({ cities, regions, savedIds: initialSaved, initialQ, tr
         </div>
       </div>
 
-      <p className="faint mb-16">{list.length} cities shown</p>
+      <p className="faint mb-16" style={{ fontWeight: 700, color: '#475569' }}>Showing {list.length} destinations</p>
 
-      <div className="grid grid-3">
+      {/* Responsive Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {list.map((c, i) => {
           const photo = cityPhoto(c.name);
           const isSaved = saved.has(c.id);
           return (
-            <Reveal key={c.id} delay={(i % 3) * 80}>
-              <div className="card card-hover" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', height: '100%' }}>
-                <div className="city-tile" style={{ minHeight: 160, borderRadius: 0, boxShadow: 'none', ['--c1' as string]: c.color, ['--c2' as string]: `${c.color}aa` }}>
-                  {photo && <CityPhoto src={photo} alt={c.name} sizes="320px" />}
-                  <div className="scrim" />
-                  <div style={{ position: 'absolute', top: 12, right: 12, zIndex: 3 }}>
+            <Reveal key={c.id} delay={(i % 4) * 70}>
+              <div className="card card-hover flex flex-col h-full overflow-hidden rounded-3xl border border-slate-200 shadow-md">
+                
+                {/* Photo Top Frame */}
+                <div className="relative h-48 w-full overflow-hidden bg-slate-900 flex-shrink-0">
+                  {photo ? (
+                    <CityPhoto src={photo} alt={c.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" sizes="380px" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-4xl bg-gradient-to-br from-teal-700 to-amber-700">
+                      {c.emoji}
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30"></div>
+                  
+                  {/* Top Badges */}
+                  <div className="absolute top-3 left-3 flex items-center gap-2">
+                    <span className="px-2.5 py-1 rounded-full bg-slate-900/80 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1 border border-white/20">
+                      <span>{c.emoji}</span> {c.country}
+                    </span>
+                  </div>
+
+                  <div className="absolute top-3 right-3 z-10">
                     <button
                       onClick={() => toggleSave(c)}
                       title={isSaved ? 'Remove from saved' : 'Save city'}
-                      className="icon-btn"
-                      style={{
-                        background: isSaved ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.3)',
-                        backdropFilter: 'blur(4px)',
-                        border: 'none',
-                        animation: isSaved ? 'popIn 0.45s cubic-bezier(0.22,1,0.36,1) both' : undefined,
-                      }}
+                      className={`w-9 h-9 rounded-full flex items-center justify-center text-base transition-all ${
+                        isSaved ? 'bg-amber-400 text-slate-900 shadow-md scale-110' : 'bg-slate-900/60 text-white backdrop-blur-md hover:bg-white hover:text-slate-900'
+                      }`}
                     >
-                      {isSaved ? '⭐' : '☆'}
+                      {isSaved ? '★' : '☆'}
                     </button>
                   </div>
-                  <div className="tile-body">
-                    <div style={{ fontSize: 22, marginBottom: 4 }}>{c.emoji}</div>
-                    <div className="name">{c.name}</div>
-                    <div className="country">{c.country} · {c.region}</div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 8 }}>
-                      <CostDots level={c.costIndex} light />
-                      <span style={{ fontSize: 11.5, fontWeight: 700, opacity: 0.95 }}>★ {c.popularity}</span>
-                    </div>
+
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
+                    <span className="text-xs font-extrabold text-teal-300 uppercase tracking-wider">{c.region}</span>
+                    <span className="text-xs font-bold text-amber-300 flex items-center gap-1">
+                      ★ {c.popularity}
+                    </span>
                   </div>
                 </div>
-                <div style={{ padding: 14, flex: 1, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  <p className="muted" style={{ fontSize: 13, minHeight: 40 }}>{c.description}</p>
-                  <div className="flex gap-8" style={{ marginTop: 'auto' }}>
-                    <button className="btn btn-primary btn-sm grow" onClick={() => openAdd(c)}>＋ Add to trip</button>
-                    <Link href={`/activities?cityId=${c.id}`} className="btn btn-ghost btn-sm">
+
+                {/* Card Body */}
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-4 bg-white">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xl font-extrabold text-slate-900 font-display">{c.name}</h3>
+                      <CostDots level={c.costIndex} />
+                    </div>
+                    <p className="text-slate-600 text-xs leading-relaxed line-clamp-3 min-h-[48px]">
+                      {c.description}
+                    </p>
+                  </div>
+
+                  {/* Actions Bar */}
+                  <div className="pt-3 border-t border-slate-100 flex gap-2">
+                    <button
+                      className="flex-1 py-2.5 px-3 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-md shadow-teal-600/20 transition-all flex items-center justify-center gap-1.5 hover:scale-[1.02]"
+                      onClick={() => openAdd(c)}
+                    >
+                      <i className="bi bi-plus-circle-fill"></i>
+                      <span>Add to Trip</span>
+                    </button>
+
+                    <Link
+                      href={`/activities?cityId=${c.id}`}
+                      className="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-xl transition-all flex items-center justify-center"
+                    >
                       Explore
                     </Link>
                   </div>
                 </div>
+
               </div>
             </Reveal>
           );
         })}
       </div>
+
       {list.length === 0 && (
-        <div className="card">
+        <div className="card card-pad mt-8">
           <div className="empty">
             <div className="big">🔭</div>
-            <div style={{ fontWeight: 700, color: 'var(--ink)' }}>No cities match</div>
-            <p className="muted mt-8">Try a different search or clear the filters.</p>
+            <div style={{ fontWeight: 800, color: 'var(--ink)', fontSize: 18 }}>No destinations match your search</div>
+            <p className="muted mt-8">Try adjusting your keywords or clearing the region/country filters.</p>
           </div>
         </div>
       )}
 
+      {/* Add Stop Modal */}
       {addFor && (
         <Modal title={`Add ${addFor.name} to a trip`} onClose={() => setAddFor(null)}>
           <div className="field">
-            <label className="label">Trip</label>
+            <label className="label">Select Destination Trip</label>
             {trip ? (
-              <div className="badge badge-teal" style={{ padding: '8px 12px', fontSize: 13.5 }}>{trip.name}</div>
+              <div className="badge badge-teal" style={{ padding: '10px 14px', fontSize: 14 }}>{trip.name}</div>
             ) : trips ? (
               <select
                 className="select"
@@ -235,18 +271,18 @@ function CitySearchInner({ cities, regions, savedIds: initialSaved, initialQ, tr
           </div>
           <div className="row2">
             <div className="field">
-              <label className="label">Arrival</label>
+              <label className="label">Arrival Date</label>
               <input className="input" type="date" value={arrDate} onChange={(e) => setArrDate(e.target.value)} required />
             </div>
             <div className="field">
-              <label className="label">Departure</label>
+              <label className="label">Departure Date</label>
               <input className="input" type="date" value={depDate} onChange={(e) => setDepDate(e.target.value)} required />
             </div>
           </div>
-          <div className="flex gap-8" style={{ justifyContent: 'flex-end' }}>
+          <div className="flex gap-8" style={{ justifyContent: 'flex-end', marginTop: 16 }}>
             <button className="btn btn-ghost" onClick={() => setAddFor(null)}>Cancel</button>
             <button className="btn btn-primary" onClick={submitAdd} disabled={busy || !trip}>
-              {busy ? 'Adding…' : 'Add stop'}
+              {busy ? 'Adding…' : 'Confirm & Add Stop'}
             </button>
           </div>
         </Modal>

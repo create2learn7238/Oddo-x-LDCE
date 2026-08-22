@@ -16,6 +16,7 @@ interface HeaderNavProps {
 
 export function HeaderNav({ userSession }: HeaderNavProps) {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <>
@@ -28,12 +29,13 @@ export function HeaderNav({ userSession }: HeaderNavProps) {
             GlobeTrotter
           </Link>
 
-          <div className="navlinks">
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex navlinks">
             <Link href="/dashboard" className="navlink">
               <i className="bi bi-grid-fill"></i> Dashboard
             </Link>
             <Link href="/trips" className="navlink">
-              <i className="bi bi-[#0d9488]"></i> My Trips
+              <i className="bi bi-briefcase-fill"></i> My Trips
             </Link>
             <Link href="/cities" className="navlink">
               <i className="bi bi-building"></i> Cities
@@ -53,14 +55,14 @@ export function HeaderNav({ userSession }: HeaderNavProps) {
             </button>
 
             {!userSession ? (
-              <div className="flex items-center gap-2">
+              <div className="hidden sm:flex items-center gap-2">
                 <Link href="/login" className="btn btn-ghost btn-sm">Log in</Link>
                 <Link href="/signup" className="btn btn-primary btn-sm">Sign up</Link>
               </div>
             ) : (
               <div className="flex items-center gap-3">
                 {userSession.isAdmin && (
-                  <Link href="/admin" className="navlink text-xs font-bold text-teal-700">
+                  <Link href="/admin" className="hidden sm:flex navlink text-xs font-bold text-teal-700">
                     <i className="bi bi-speedometer2"></i> Admin
                   </Link>
                 )}
@@ -76,8 +78,40 @@ export function HeaderNav({ userSession }: HeaderNavProps) {
                 </Link>
               </div>
             )}
+
+            {/* Mobile Hamburger Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden w-9 h-9 rounded-xl border border-slate-300 flex items-center justify-center text-slate-700"
+            >
+              <i className={`bi ${isMobileMenuOpen ? 'bi-x-lg' : 'bi-list'} text-lg`}></i>
+            </button>
           </div>
         </div>
+
+        {/* Mobile Dropdown Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white border-b border-slate-200 p-4 space-y-2 animate-fadeUp">
+            <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-xl text-sm font-bold text-slate-800 hover:bg-teal-50 hover:text-teal-700">
+              <i className="bi bi-grid-fill mr-2"></i> Dashboard
+            </Link>
+            <Link href="/trips" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-xl text-sm font-bold text-slate-800 hover:bg-teal-50 hover:text-teal-700">
+              <i className="bi bi-briefcase-fill mr-2"></i> My Trips
+            </Link>
+            <Link href="/cities" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-xl text-sm font-bold text-slate-800 hover:bg-teal-50 hover:text-teal-700">
+              <i className="bi bi-building mr-2"></i> Cities
+            </Link>
+            <Link href="/activities" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-xl text-sm font-bold text-slate-800 hover:bg-teal-50 hover:text-teal-700">
+              <i className="bi bi-ticket-perforated mr-2"></i> Activities
+            </Link>
+            {!userSession && (
+              <div className="pt-3 border-t border-slate-100 flex gap-2">
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex-1 text-center btn btn-ghost btn-sm">Log in</Link>
+                <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)} className="flex-1 text-center btn btn-primary btn-sm">Sign up</Link>
+              </div>
+            )}
+          </div>
+        )}
       </nav>
 
       <SmartToolsModal isOpen={isToolsOpen} onClose={() => setIsToolsOpen(false)} />
