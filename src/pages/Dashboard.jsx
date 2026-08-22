@@ -6,6 +6,7 @@ import DestinationCard from '../components/DestinationCard'
 import TravelerReviews from '../components/TravelerReviews'
 import CurrencyTicker from '../components/CurrencyTicker'
 import AmbientSoundscape from '../components/AmbientSoundscape'
+import TravelPersonalityQuiz from '../components/TravelPersonalityQuiz'
 import {
   Plus, Compass, MapPin, Sparkles, TrendingUp,
   Calendar, CheckCircle, ArrowRight, Heart, Plane, Shield
@@ -165,6 +166,9 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Travel Personality Matcher Quiz */}
+      <TravelPersonalityQuiz />
 
       {/* Main 2-Column Dashboard Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--space-8)' }}>

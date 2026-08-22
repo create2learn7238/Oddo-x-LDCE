@@ -5,6 +5,7 @@ import DestinationCard from '../components/DestinationCard'
 import InteractiveMap from '../components/InteractiveMap'
 import CuisineGuide from '../components/CuisineGuide'
 import FestivalCalendar from '../components/FestivalCalendar'
+import AudioCityGuide from '../components/AudioCityGuide'
 import { useApp } from '../context/AppContext'
 
 const REGIONS = ['All', 'India', 'Europe', 'Asia', 'Americas', 'Middle East']
@@ -77,6 +78,9 @@ export default function CitySearch() {
           <Sparkles size={13} /> {gujaratOnly ? 'Showing All Places' : 'Show Gujarat Only 🦁'}
         </button>
       </div>
+
+      {/* Voiceover Guided Audio Tour */}
+      <AudioCityGuide cityName={search || 'Ahmedabad'} />
 
       {/* Search & Filters */}
       <div style={{ display:'flex',gap:'var(--space-3)',marginBottom:'var(--space-6)',flexWrap:'wrap' }}>
