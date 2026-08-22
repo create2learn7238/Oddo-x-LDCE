@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import {
   Edit3, DollarSign, Share2, Calendar, List, MapPin,
-  Clock, ChevronDown, ChevronRight, Printer, Copy, Check, CheckSquare, Square
+  Clock, ChevronDown, ChevronRight, Printer, Copy, Check, CheckSquare, Square, Download
 } from 'lucide-react'
 import RouteVisualizer from '../components/RouteVisualizer'
 import WeatherWidget from '../components/WeatherWidget'
@@ -108,6 +108,44 @@ export default function ItineraryView() {
     setTimeout(() => setCopied(false), 2500)
   }
 
+  const handleExportICS = () => {
+    let ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//GlobeTrotter Travel Planner//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH'
+    ]
+
+    trip.stops?.forEach((stop, idx) => {
+      const startClean = (stop.startDate || trip.startDate).replace(/-/g, '')
+      const endClean = (stop.endDate || trip.endDate).replace(/-/g, '')
+      ics.push(
+        'BEGIN:VEVENT',
+        `UID:gt-${trip.id}-stop-${idx}-${Date.now()}@globetrotter.app`,
+        `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z`,
+        `DTSTART;VALUE=DATE:${startClean}`,
+        `DTEND;VALUE=DATE:${endClean}`,
+        `SUMMARY:Trip: ${stop.cityName} (${trip.name})`,
+        `DESCRIPTION:Stay: ${stop.accommodation || 'City Center Stay'}. Planned with GlobeTrotter.`,
+        `LOCATION:${stop.cityName}`,
+        'STATUS:CONFIRMED',
+        'END:VEVENT'
+      )
+    })
+
+    ics.push('END:VCALENDAR')
+    const blob = new Blob([ics.join('\r\n')], { type: 'text/calendar;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${trip.name.toLowerCase().replace(/[^a-z0-9]/g, '_')}_calendar.ics`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    showToast('Calendar .ics file downloaded! Open to sync with Google/Apple Calendar', 'success')
+  }
+
   const togglePacked = (item) => {
     setPackedItems(prev => ({ ...prev, [item]: !prev[item] }))
   }
@@ -131,6 +169,9 @@ export default function ItineraryView() {
             </p>
           </div>
           <div style={{ display:'flex',gap:'var(--space-2)',flexWrap:'wrap' }}>
+            <button className="btn btn-secondary btn-sm" onClick={handleExportICS} title="Sync with Google or Apple Calendar">
+              <Download size={14} /> .ICS Calendar
+            </button>
             <button className="btn btn-secondary btn-sm" onClick={handlePrint} title="Print or Save as PDF">
               <Printer size={14} /> Print / PDF
             </button>

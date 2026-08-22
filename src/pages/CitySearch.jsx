@@ -7,6 +7,7 @@ import CuisineGuide from '../components/CuisineGuide'
 import FestivalCalendar from '../components/FestivalCalendar'
 import AudioCityGuide from '../components/AudioCityGuide'
 import TravelScavengerHunt from '../components/TravelScavengerHunt'
+import LocalEtiquetteAI from '../components/LocalEtiquetteAI'
 import { useApp } from '../context/AppContext'
 
 const REGIONS = ['All', 'India', 'Europe', 'Asia', 'Americas', 'Middle East']
@@ -158,6 +159,11 @@ export default function CitySearch() {
       {/* Regional Cuisine & Street Food Guide */}
       <div style={{ marginTop: 'var(--space-8)' }}>
         <CuisineGuide />
+      </div>
+
+      {/* Local Culture, Customs & Etiquette Guide */}
+      <div style={{ marginTop: 'var(--space-8)' }}>
+        <LocalEtiquetteAI />
       </div>
     </div>
   )
