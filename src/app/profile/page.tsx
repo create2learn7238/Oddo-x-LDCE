@@ -21,7 +21,9 @@ export default async function ProfilePage() {
     where: { id: session.userId },
     include: { savedCities: true, _count: { select: { trips: true } } },
   });
-  if (!user) return null;
+  if (!user) {
+    redirect('/login');
+  }
 
   const initials = user.name
     .trim()

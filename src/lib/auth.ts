@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { SignJWT, jwtVerify } from 'jose';
 import type { User } from '@prisma/client';
+import { prisma } from './db';
 
 const SECRET = new TextEncoder().encode(process.env.GT_SECRET || 'globetrotter-hackathon-secret-key-2026');
 export const COOKIE = 'gt_session';
@@ -64,6 +65,12 @@ export async function requireUser(next?: string): Promise<Session> {
   const session = await readSession();
   if (!session) {
     redirect(next ? `/login?next=${encodeURIComponent(next)}` : '/login');
+  }
+  // Verify user still exists in the database to prevent stale cookie sessions
+  const exists = await prisma.user.findUnique({ where: { id: session.userId } });
+  if (!exists) {
+    // Redirect through the stale session route handler to safely clear cookie on server-side GET
+    redirect('/api/auth/stale');
   }
   return session;
 }
