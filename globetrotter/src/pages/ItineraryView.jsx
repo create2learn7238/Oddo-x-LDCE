@@ -5,6 +5,8 @@ import {
   Edit3, DollarSign, Share2, Calendar, List, MapPin,
   Clock, ChevronDown, ChevronRight, Printer, Copy, Check, CheckSquare, Square
 } from 'lucide-react'
+import RouteVisualizer from '../components/RouteVisualizer'
+import WeatherWidget from '../components/WeatherWidget'
 
 function formatDate(d) {
   return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' })
@@ -157,6 +159,12 @@ export default function ItineraryView() {
           </div>
         ))}
       </div>
+
+      {/* Interactive Travel Route */}
+      <RouteVisualizer stops={trip.stops} tripColor={trip.coverColor} />
+
+      {/* Weather Forecast & Climate */}
+      <WeatherWidget stops={trip.stops} />
 
       {/* View Mode Switcher */}
       <div style={{ display:'flex',gap:'var(--space-2)',marginBottom:'var(--space-6)',background:'var(--color-surface)',borderRadius:'var(--radius-md)',padding:4,width:'fit-content',border:'1px solid var(--color-border)' }}>

@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp, THEMES, CURRENCIES } from '../context/AppContext'
 import { User, Mail, Camera, Trash2, Save, LogOut, Shield, Calendar, Globe, Palette, DollarSign, Check } from 'lucide-react'
+import EmergencyVault from '../components/EmergencyVault'
 
 export default function Profile() {
   const { user, login, logout, trips, showToast, theme, setTheme, currency, setCurrency } = useApp()
@@ -230,6 +231,9 @@ export default function Profile() {
               })}
             </div>
           </div>
+
+          {/* Emergency Contacts & Travel Reference Vault */}
+          <EmergencyVault />
         </div>
       )}
 

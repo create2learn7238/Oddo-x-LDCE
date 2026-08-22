@@ -6,6 +6,7 @@ import {
   PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend
 } from 'recharts'
+import ExpenseSplitter from '../components/ExpenseSplitter'
 
 const COLORS = ['#6C63FF','#FF6584','#43E97B','#F7971E','#38BDF8','#a855f7']
 
@@ -243,6 +244,9 @@ export default function BudgetView() {
           </div>
         </div>
       )}
+
+      {/* Group Travel Expense Splitter */}
+      <ExpenseSplitter grandTotal={grandTotal} />
 
       {/* Breakdown Table */}
       <div className="card" style={{ padding:'var(--space-6)',overflowX:'auto' }}>
