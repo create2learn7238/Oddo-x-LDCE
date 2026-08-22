@@ -9,7 +9,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Deep Teal / Emerald Blue-Green Palette
         teal: {
           50: '#f0fdfa',
           100: '#ccfbf1',
@@ -23,7 +22,6 @@ module.exports = {
           900: '#134e4a',
           950: '#042f2e',
         },
-        // Lightbit Brown / Warm Sand Terracotta Accent Palette
         amber: {
           50: '#fffbeb',
           100: '#fef3c7',
@@ -58,17 +56,28 @@ module.exports = {
       },
       animation: {
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'float': 'float 6s ease-in-out infinite',
-        'shimmer': 'shimmer 2.5s infinite linear',
+        'float': 'floatY 4.5s ease-in-out infinite',
+        'fadeUp': 'fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both',
+        'popIn': 'popIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both',
+        'scaleIn': 'scaleIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both',
       },
       keyframes: {
-        float: {
+        floatY: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-8px)' },
         },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' },
+        fadeUp: {
+          from: { opacity: '0', transform: 'translateY(18px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        popIn: {
+          '0%': { opacity: '0', transform: 'scale(0.88)' },
+          '70%': { transform: 'scale(1.03)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        scaleIn: {
+          from: { opacity: '0', transform: 'scale(0.96) translateY(6px)' },
+          to: { opacity: '1', transform: 'scale(1) translateY(0)' },
         }
       }
     },

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-type TabType = 'ai' | 'currency' | 'weather' | 'transit' | 'expenses' | 'vault' | 'journal' | 'visa';
+type TabType = 'ai' | 'currency' | 'weather' | 'transit' | 'expenses' | 'vault' | 'journal' | 'quiz' | 'badges' | 'sound';
 
 const CURRENCIES = [
   { code: 'USD', name: 'US Dollar', symbol: '$', rate: 1.0 },
@@ -28,6 +28,15 @@ const EMERGENCY_HELPLINES = [
   { country: '🇯🇵 Japan', police: '110', ambulance: '119', tourist: '050-3816-2720' },
   { country: '🇺🇸 USA', police: '911', ambulance: '911', tourist: '1-888-407-4747' },
   { country: '🇦🇪 UAE', police: '999', ambulance: '998', tourist: '800-4438' },
+];
+
+const BADGES = [
+  { title: 'Globe Voyager', icon: '🌍', desc: 'Planned trips across 3+ continents', unlocked: true, color: 'from-teal-500 to-emerald-600' },
+  { title: 'Heritage Hunter', icon: '🏰', desc: 'Visited UNESCO heritage sites', unlocked: true, color: 'from-amber-500 to-orange-600' },
+  { title: 'Budget Maestro', icon: '💰', desc: 'Stayed 100% under daily target', unlocked: true, color: 'from-indigo-500 to-blue-600' },
+  { title: 'Gujarat Explorer', icon: '🦁', desc: 'Explored Ahmedabad & Rann of Kutch', unlocked: true, color: 'from-teal-600 to-cyan-700' },
+  { title: 'Culinary Connoisseur', icon: '🍜', desc: 'Tried 10+ local food experiences', unlocked: false, color: 'from-slate-400 to-slate-500' },
+  { title: 'Night Sky Nomad', icon: '🌌', desc: 'Stargazed in salt deserts', unlocked: false, color: 'from-slate-400 to-slate-500' },
 ];
 
 export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -57,12 +66,15 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
   const [numTravelers, setNumTravelers] = useState<number>(4);
   const [totalBill, setTotalBill] = useState<number>(1200);
 
-  // Visa Checker State
-  const [passportCountry, setPassportCountry] = useState('India');
-  const [destCountry, setDestCountry] = useState('France');
+  // Quiz State
+  const [quizScore, setQuizScore] = useState<number | null>(null);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
 
-  // Journal State
-  const [notes, setNotes] = useState<string>('Day 1: Arrived in style. The local food is incredible!');
+  // Ambient Sound Player State
+  const [playingTrack, setPlayingTrack] = useState<string | null>(null);
+
+  // Journal Notes
+  const [notes, setNotes] = useState<string>('Day 1: Arrived in style. Sabarmati heritage walk was breathtaking!');
 
   if (!isOpen) return null;
 
@@ -84,15 +96,13 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
       }
       setAiMessages(prev => [...prev, { role: 'ai', text: reply }]);
       setIsAiLoading(false);
-    }, 700);
+    }, 600);
   };
 
-  // Convert Currency logic
   const fromRate = CURRENCIES.find(c => c.code === fromCurr)?.rate || 1;
   const toRate = CURRENCIES.find(c => c.code === toCurr)?.rate || 1;
   const convertedVal = ((currAmount / fromRate) * toRate).toFixed(2);
 
-  // Transit calculations
   const distanceKm = transitFrom === 'Ahmedabad' && transitTo === 'Mumbai' ? 530 : 1250;
   const speed = transitMode === 'flight' ? 650 : transitMode === 'train' ? 90 : 65;
   const hours = (distanceKm / speed).toFixed(1);
@@ -101,20 +111,37 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal max-w-4xl w-full !p-0 overflow-hidden" onClick={e => e.stopPropagation()}>
-        {/* Header */}
+        
+        {/* Animated Live Ticker Header */}
+        <div className="bg-slate-950 text-teal-400 py-1.5 px-4 text-[11px] font-mono font-bold flex items-center overflow-hidden border-b border-teal-900/40">
+          <span className="bg-teal-600 text-white px-2 py-0.5 rounded text-[10px] uppercase font-extrabold mr-3 shrink-0 animate-pulse">
+            LIVE TICKER
+          </span>
+          <div className="flex gap-6 whitespace-nowrap overflow-x-auto scrollbar-none opacity-90">
+            {CURRENCIES.map(c => (
+              <span key={c.code} className="inline-flex items-center gap-1">
+                <span>{c.code}:</span>
+                <span className="text-amber-400">{c.symbol}{c.rate}</span>
+                <span className="text-emerald-400 text-[9px]">▲ 0.4%</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Modal Header */}
         <div className="bg-gradient-to-r from-teal-900 via-teal-700 to-amber-700 p-5 text-white flex items-center justify-between shadow-lg">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-xl shadow-inner">
+            <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-xl shadow-inner animate-float">
               <i className="bi bi-compass-fill"></i>
             </div>
             <div>
-              <h3 className="text-xl font-bold font-display leading-tight text-white">GlobeTrotter Smart Travel Tools</h3>
-              <p className="text-xs text-teal-100 font-medium">All-in-one assistant, converter, planner & emergency vault</p>
+              <h3 className="text-xl font-bold font-display leading-tight text-white">GlobeTrotter Smart Suite</h3>
+              <p className="text-xs text-teal-100 font-medium">Interactive AI, soundscapes, personality quiz & travel tools</p>
             </div>
           </div>
           <button 
             onClick={onClose}
-            className="w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center transition-all"
+            className="w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center transition-all hover:scale-110"
           >
             <i className="bi bi-x-lg"></i>
           </button>
@@ -124,20 +151,22 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
         <div className="bg-slate-100 border-b border-teal-900/10 p-2 flex gap-1.5 overflow-x-auto scrollbar-none">
           {[
             { id: 'ai', label: 'AI Assistant', icon: 'bi-robot' },
-            { id: 'currency', label: 'Currency Ticker', icon: 'bi-currency-exchange' },
-            { id: 'weather', label: 'Weather & Packing', icon: 'bi-cloud-sun' },
+            { id: 'currency', label: 'Currency', icon: 'bi-currency-exchange' },
+            { id: 'weather', label: 'Weather', icon: 'bi-cloud-sun' },
             { id: 'transit', label: 'Route & Transit', icon: 'bi-signpost-split' },
             { id: 'expenses', label: 'Expense Splitter', icon: 'bi-calculator' },
+            { id: 'quiz', label: 'Travel Quiz', icon: 'bi-patch-question' },
+            { id: 'badges', label: 'Badges', icon: 'bi-award' },
+            { id: 'sound', label: 'Soundscapes', icon: 'bi-headphones' },
             { id: 'vault', label: 'Emergency Vault', icon: 'bi-shield-check' },
-            { id: 'journal', label: 'Journal & Notes', icon: 'bi-journal-bookmark' },
-            { id: 'visa', label: 'Visa Matrix', icon: 'bi-passport' },
+            { id: 'journal', label: 'Journal', icon: 'bi-journal-bookmark' },
           ].map(t => (
             <button
               key={t.id}
               onClick={() => setActiveTab(t.id as TabType)}
               className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
                 activeTab === t.id
-                  ? 'bg-teal-600 text-white shadow-md shadow-teal-600/30'
+                  ? 'bg-teal-600 text-white shadow-md shadow-teal-600/30 scale-105'
                   : 'bg-white text-slate-600 hover:text-teal-700 hover:bg-teal-50'
               }`}
             >
@@ -161,10 +190,10 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
                   <p className="text-xs text-slate-500">Instant trip recommendations, local secrets & budget optimization</p>
                 </div>
                 <div className="flex gap-1.5">
-                  <button onClick={() => handleAiSend('Suggest 3-day Gujarat itinerary')} className="px-2.5 py-1 text-xs bg-teal-50 text-teal-700 font-semibold rounded-lg hover:bg-teal-100 transition-all">
+                  <button onClick={() => handleAiSend('Suggest 3-day Gujarat itinerary')} className="px-2.5 py-1 text-xs bg-teal-50 text-teal-700 font-semibold rounded-lg hover:bg-teal-100 transition-all hover:scale-105">
                     🦁 Gujarat Express
                   </button>
-                  <button onClick={() => handleAiSend('Top budget travel tips')} className="px-2.5 py-1 text-xs bg-amber-50 text-amber-700 font-semibold rounded-lg hover:bg-amber-100 transition-all">
+                  <button onClick={() => handleAiSend('Top budget travel tips')} className="px-2.5 py-1 text-xs bg-amber-50 text-amber-700 font-semibold rounded-lg hover:bg-amber-100 transition-all hover:scale-105">
                     💡 Budget Tips
                   </button>
                 </div>
@@ -172,7 +201,7 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
 
               <div className="bg-white border border-slate-200 rounded-2xl p-4 h-72 overflow-y-auto space-y-3 shadow-inner">
                 {aiMessages.map((m, idx) => (
-                  <div key={idx} className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div key={idx} className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-fadeUp`}>
                     {m.role === 'ai' && (
                       <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-teal-600 to-teal-500 text-white flex items-center justify-center text-sm shadow-md shrink-0">
                         🤖
@@ -189,7 +218,7 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
                 ))}
                 {isAiLoading && (
                   <div className="flex gap-2 items-center text-xs text-teal-600 font-semibold italic animate-pulse">
-                    <i className="bi bi-arrow-repeat animate-spin"></i> Generating recommendations...
+                    <i className="bi bi-arrow-repeat animate-spin"></i> Generating smart travel plan...
                   </div>
                 )}
               </div>
@@ -205,7 +234,7 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
                 />
                 <button
                   onClick={() => handleAiSend()}
-                  className="px-5 py-2.5 bg-gradient-to-r from-teal-600 to-teal-700 text-white font-bold text-xs rounded-xl hover:shadow-lg hover:shadow-teal-600/30 transition-all flex items-center gap-1.5"
+                  className="px-5 py-2.5 bg-gradient-to-r from-teal-600 to-teal-700 text-white font-bold text-xs rounded-xl hover:shadow-lg hover:shadow-teal-600/30 transition-all flex items-center gap-1.5 hover:scale-105"
                 >
                   <span>Send</span>
                   <i className="bi bi-send-fill"></i>
@@ -214,7 +243,148 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
             </div>
           )}
 
-          {/* TAB 2: Currency Converter */}
+          {/* TAB 2: Travel Personality Quiz */}
+          {activeTab === 'quiz' && (
+            <div className="space-y-5">
+              <div>
+                <h4 className="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i className="bi bi-patch-question text-amber-500"></i> Interactive Travel Personality Quiz
+                </h4>
+                <p className="text-xs text-slate-500">Discover your travel style archetype through interactive animated questions</p>
+              </div>
+
+              <div className="space-y-4">
+                {[
+                  { q: "1. What is your ideal morning on vacation?", options: ["☕ Espresso at a historic cafe", "🥾 Sunrise hike to a mountain peak", "🏖️ Sleeping in & beach relaxing", "🕌 Exploring a local food bazaar"] },
+                  { q: "2. How do you plan your travel budget?", options: ["💎 Luxury boutique stays & fine dining", "📊 Strict daily tracking on spreadsheets", "🎒 Budget hostels & street eats", "✨ Flexible — spend where it matters"] },
+                ].map((item, idx) => (
+                  <div key={idx} className="bg-white p-5 rounded-2xl border border-slate-200 space-y-3 shadow-sm">
+                    <h5 className="text-xs font-bold text-slate-800">{item.q}</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {item.options.map((opt, oIdx) => (
+                        <button
+                          key={oIdx}
+                          onClick={() => setSelectedAnswers(prev => ({ ...prev, [idx]: opt }))}
+                          className={`p-3 rounded-xl text-xs font-semibold text-left transition-all border ${
+                            selectedAnswers[idx] === opt
+                              ? 'bg-teal-50 border-teal-500 text-teal-800 shadow-sm scale-[1.02]'
+                              : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                          }`}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="p-5 rounded-2xl bg-gradient-to-r from-amber-600 to-amber-800 text-white flex items-center justify-between shadow-lg">
+                <div>
+                  <div className="text-xs text-amber-200 font-bold uppercase tracking-wider">Your Archetype Result</div>
+                  <div className="text-2xl font-black font-display text-white mt-1">
+                    {selectedAnswers[0]?.includes('hike') ? '🏔️ The Alpine Explorer' : selectedAnswers[0]?.includes('bazaar') ? '🦁 The Heritage Nomad' : '✨ The Cultural Connoisseur'}
+                  </div>
+                  <p className="text-xs text-amber-100 mt-1">Tailored itineraries: Gujarat Cultural Circuit, Europe Art Express & Alpine Trails.</p>
+                </div>
+                <div className="text-4xl text-amber-300 animate-bounce">
+                  🏆
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: Gamified Badges */}
+          {activeTab === 'badges' && (
+            <div className="space-y-5">
+              <div>
+                <h4 className="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i className="bi bi-award text-amber-500"></i> Gamified Achievements & Trophy Vault
+                </h4>
+                <p className="text-xs text-slate-500">Earn glowing badges as you plan and complete real travel itineraries</p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {BADGES.map((b, idx) => (
+                  <div
+                    key={idx}
+                    className={`p-4 rounded-2xl border transition-all duration-300 hover:scale-105 ${
+                      b.unlocked 
+                        ? 'bg-white border-teal-200 shadow-md hover:shadow-teal-500/20' 
+                        : 'bg-slate-100/70 border-slate-200 opacity-65'
+                    }`}
+                  >
+                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${b.color} text-white flex items-center justify-center text-2xl mb-3 shadow-sm ${b.unlocked ? 'animate-pulse-slow' : ''}`}>
+                      {b.icon}
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <h5 className="font-bold text-xs text-slate-900">{b.title}</h5>
+                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${b.unlocked ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'}`}>
+                        {b.unlocked ? 'UNLOCKED' : 'LOCKED'}
+                      </span>
+                    </div>
+                    <p className="text-[11.5px] text-slate-500 mt-1 leading-relaxed">{b.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: Ambient Soundscapes */}
+          {activeTab === 'sound' && (
+            <div className="space-y-5">
+              <div>
+                <h4 className="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i className="bi bi-headphones text-amber-500"></i> Ambient Travel Soundscape Player
+                </h4>
+                <p className="text-xs text-slate-500">Listen to soothing ambient audio while planning your upcoming journeys</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  { id: 'waves', name: 'Goa Ocean Waves', icon: 'bi-tsunami', desc: 'Calming beach surf & palm breeze', color: 'from-cyan-600 to-teal-700' },
+                  { id: 'rain', name: 'Parisian Cafe Rain', icon: 'bi-cloud-rain', desc: 'Gentle raindrops & bistro acoustic ambiance', color: 'from-indigo-600 to-slate-800' },
+                  { id: 'desert', name: 'Kutch Night Winds', icon: 'bi-wind', desc: 'Quiet desert breeze under silver moonlight', color: 'from-amber-600 to-amber-800' },
+                  { id: 'flight', name: 'Cabin White Noise', icon: 'bi-airplane', desc: 'Relaxing high-altitude cruising soundscape', color: 'from-teal-700 to-teal-900' },
+                ].map(s => (
+                  <div key={s.id} className="p-4 bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${s.color} text-white flex items-center justify-center text-xl shadow-md`}>
+                        <i className={`bi ${s.icon}`}></i>
+                      </div>
+                      <div>
+                        <h5 className="font-bold text-xs text-slate-900">{s.name}</h5>
+                        <p className="text-[11px] text-slate-500">{s.desc}</p>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => setPlayingTrack(playingTrack === s.id ? null : s.id)}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
+                        playingTrack === s.id
+                          ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/40 scale-110 animate-pulse'
+                          : 'bg-teal-50 text-teal-700 hover:bg-teal-100'
+                      }`}
+                    >
+                      <i className={`bi ${playingTrack === s.id ? 'bi-pause-fill' : 'bi-play-fill'}`}></i>
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {playingTrack && (
+                <div className="p-4 bg-teal-900 text-white rounded-2xl flex items-center justify-between shadow-lg animate-fadeUp">
+                  <div className="flex items-center gap-3">
+                    <div className="w-3 h-3 rounded-full bg-amber-400 animate-ping"></div>
+                    <span className="text-xs font-bold">Now Playing: Ambient Soundscape</span>
+                  </div>
+                  <span className="text-xs font-mono text-teal-200">Volume: 80%</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TAB 5: Currency */}
           {activeTab === 'currency' && (
             <div className="space-y-5">
               <div>
@@ -268,30 +438,15 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
                   <div className="text-3xl font-extrabold font-display tracking-tight text-amber-300 mt-1">
                     {CURRENCIES.find(c => c.code === toCurr)?.symbol} {convertedVal} {toCurr}
                   </div>
-                  <div className="text-[11px] text-teal-300 mt-1">
-                    1 {fromCurr} = {((1 / fromRate) * toRate).toFixed(4)} {toCurr}
-                  </div>
                 </div>
                 <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-2xl text-amber-400">
                   <i className="bi bi-arrow-down-up"></i>
                 </div>
               </div>
-
-              <div className="bg-white rounded-2xl border border-slate-200 p-4">
-                <h5 className="text-xs font-bold text-slate-700 mb-3 uppercase tracking-wider">Live Rate Table (USD Base)</h5>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {CURRENCIES.map(c => (
-                    <div key={c.code} className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
-                      <span className="text-xs font-bold text-slate-700">{c.symbol} {c.code}</span>
-                      <span className="text-xs font-mono font-semibold text-teal-700">{c.rate}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
           )}
 
-          {/* TAB 3: Weather & Packing */}
+          {/* TAB 6: Weather */}
           {activeTab === 'weather' && (
             <div className="space-y-5">
               <div className="flex items-center justify-between">
@@ -323,16 +478,8 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
                         {WEATHER_DATA[selectedCity].cond} · Humidity: {WEATHER_DATA[selectedCity].humidity}
                       </div>
                     </div>
-                    <div className="text-5xl text-amber-300 opacity-90">
+                    <div className="text-5xl text-amber-300 opacity-90 animate-pulse">
                       <i className={`bi ${WEATHER_DATA[selectedCity].icon}`}></i>
-                    </div>
-                  </div>
-
-                  <div className="bg-amber-50/80 border border-amber-200/80 p-4 rounded-2xl flex gap-3 items-start">
-                    <i className="bi bi-lightbulb-fill text-amber-600 text-lg mt-0.5"></i>
-                    <div>
-                      <h5 className="text-xs font-bold text-amber-900 uppercase">Smart Packing Advice</h5>
-                      <p className="text-xs text-amber-800 mt-0.5 leading-relaxed">{WEATHER_DATA[selectedCity].advice}</p>
                     </div>
                   </div>
 
@@ -354,7 +501,7 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
             </div>
           )}
 
-          {/* TAB 4: Route & Transit */}
+          {/* TAB 7: Route & Transit */}
           {activeTab === 'transit' && (
             <div className="space-y-5">
               <div>
@@ -393,7 +540,7 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
                         key={m.mode}
                         onClick={() => setTransitMode(m.mode as any)}
                         className={`flex-1 py-2 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all ${
-                          transitMode === m.mode ? 'bg-teal-600 text-white shadow-sm' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                          transitMode === m.mode ? 'bg-teal-600 text-white shadow-sm scale-105' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                         }`}
                       >
                         <i className={`bi ${m.icon}`}></i>
@@ -405,26 +552,26 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
               </div>
 
               <div className="grid grid-cols-3 gap-4">
-                <div className="p-4 bg-white rounded-2xl border border-slate-200 text-center">
+                <div className="p-4 bg-white rounded-2xl border border-slate-200 text-center shadow-sm hover:border-teal-400 transition-all">
                   <div className="text-xs text-slate-500 font-semibold">Distance</div>
                   <div className="text-2xl font-extrabold text-teal-700 mt-1">{distanceKm} km</div>
                   <div className="text-[11px] text-slate-400 mt-0.5">Haversine Great-Circle</div>
                 </div>
-                <div className="p-4 bg-white rounded-2xl border border-slate-200 text-center">
+                <div className="p-4 bg-white rounded-2xl border border-slate-200 text-center shadow-sm hover:border-amber-400 transition-all">
                   <div className="text-xs text-slate-500 font-semibold">Estimated Time</div>
                   <div className="text-2xl font-extrabold text-amber-600 mt-1">{hours} hrs</div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">Average Speed: {speed} km/h</div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">Avg Speed: {speed} km/h</div>
                 </div>
-                <div className="p-4 bg-white rounded-2xl border border-slate-200 text-center">
-                  <div className="text-xs text-slate-500 font-semibold">Estimated Fare / Person</div>
+                <div className="p-4 bg-white rounded-2xl border border-slate-200 text-center shadow-sm hover:border-emerald-400 transition-all">
+                  <div className="text-xs text-slate-500 font-semibold">Estimated Fare</div>
                   <div className="text-2xl font-extrabold text-emerald-700 mt-1">${costEst}</div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">Includes base tickets & fees</div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">Per person base rate</div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* TAB 5: Expense Splitter */}
+          {/* TAB 8: Expense Splitter */}
           {activeTab === 'expenses' && (
             <div className="space-y-5">
               <div>
@@ -472,7 +619,7 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
             </div>
           )}
 
-          {/* TAB 6: Emergency Vault */}
+          {/* TAB 9: Emergency Vault */}
           {activeTab === 'vault' && (
             <div className="space-y-4">
               <div>
@@ -484,7 +631,7 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {EMERGENCY_HELPLINES.map((h, idx) => (
-                  <div key={idx} className="p-4 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                  <div key={idx} className="p-4 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-2 hover:border-red-300 transition-all">
                     <div className="font-bold text-sm text-slate-800 border-b border-slate-100 pb-2 flex items-center justify-between">
                       <span>{h.country}</span>
                       <span className="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-extrabold">24/7 HELPLINE</span>
@@ -509,7 +656,7 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
             </div>
           )}
 
-          {/* TAB 7: Journal */}
+          {/* TAB 10: Journal */}
           {activeTab === 'journal' && (
             <div className="space-y-4">
               <div>
@@ -529,56 +676,10 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
                   placeholder="Record your trip highlights, favorite cafes, and memories here..."
                 ></textarea>
                 <div className="flex justify-end">
-                  <button onClick={() => alert('Journal note saved to vault!')} className="px-4 py-2 bg-amber-700 text-white font-bold text-xs rounded-xl hover:bg-amber-800 transition-all shadow-sm">
+                  <button onClick={() => alert('Journal note saved to vault!')} className="px-4 py-2 bg-amber-700 text-white font-bold text-xs rounded-xl hover:bg-amber-800 transition-all shadow-sm hover:scale-105">
                     Save Journal Entry 💾
                   </button>
                 </div>
-              </div>
-            </div>
-          )}
-
-          {/* TAB 8: Visa Matrix */}
-          {activeTab === 'visa' && (
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-bold text-slate-900 text-base flex items-center gap-2">
-                  <i className="bi bi-passport text-amber-500"></i> Passport & Visa Entry Requirement Matrix
-                </h4>
-                <p className="text-xs text-slate-500">Check visa requirements and passport validity rules globally</p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 bg-white p-4 rounded-2xl border border-slate-200">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Passport Country</label>
-                  <select value={passportCountry} onChange={e => setPassportCountry(e.target.value)} className="w-full p-2.5 text-xs font-semibold border rounded-xl bg-white">
-                    <option value="India">India 🇮🇳</option>
-                    <option value="United States">United States 🇺🇸</option>
-                    <option value="United Kingdom">United Kingdom 🇬🇧</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Destination</label>
-                  <select value={destCountry} onChange={e => setDestCountry(e.target.value)} className="w-full p-2.5 text-xs font-semibold border rounded-xl bg-white">
-                    <option value="France">France 🇫🇷 (Schengen)</option>
-                    <option value="Japan">Japan 🇯🇵</option>
-                    <option value="UAE">UAE 🇦🇪</option>
-                    <option value="Thailand">Thailand 🇹🇭</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-800">Status for {passportCountry} passport to {destCountry}:</span>
-                  <span className="px-3 py-1 bg-emerald-100 text-emerald-800 font-extrabold text-xs rounded-full">
-                    {destCountry === 'Thailand' || destCountry === 'UAE' ? 'E-VISA / VISA ON ARRIVAL' : 'SCHENGEN / EMBASSY VISA REQUIRED'}
-                  </span>
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  • Passport must be valid for at least 6 months beyond intended stay duration.<br/>
-                  • Proof of return ticket and hotel reservations required at immigration.<br/>
-                  • Travel health insurance covering minimum €30,000 required for Schengen destinations.
-                </p>
               </div>
             </div>
           )}
@@ -587,9 +688,9 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
 
         {/* Modal Footer */}
         <div className="p-4 bg-slate-100 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 font-medium">
-          <span>GlobeTrotter Smart Suite v2.0</span>
+          <span>GlobeTrotter Smart Suite v2.0 · Live Interactive Suite</span>
           <button onClick={onClose} className="px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-xl hover:bg-slate-300 transition-all">
-            Close Tools
+            Close Suite
           </button>
         </div>
       </div>
