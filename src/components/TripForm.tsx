@@ -128,7 +128,7 @@ export default function TripForm({
         <input className="input" name="coverImage" placeholder="https://example.com/photo.jpg" defaultValue={initial?.coverImage ?? ''} />
       </div>
       <div className="field">
-        <label className="label">Budget (USD) <span className="faint">(optional — used for over-budget alerts)</span></label>
+        <label className="label">Budget (₹ INR) <span className="faint">(optional — used for over-budget alerts)</span></label>
         <input className="input" name="budgetTotal" type="number" min={0} placeholder="e.g. 2400" defaultValue={initial?.budgetTotal ?? ''} />
       </div>
 

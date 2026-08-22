@@ -7,10 +7,10 @@ export type StopFull = Stop & {
 };
 export type TripFull = Trip & { stops: StopFull[] };
 
-/** Per-person, per-day rates in USD by city cost index (1 = budget … 5 = luxury) */
-export const STAY_RATES = [70, 110, 160, 220, 320];
-export const MEALS_RATES = [18, 28, 42, 60, 90];
-export const LOCAL_RATES = [6, 9, 14, 20, 30];
+/** Per-person, per-day rates in INR by city cost index (1 = budget … 5 = luxury) */
+export const STAY_RATES = [800, 1800, 3500, 7000, 15000];
+export const MEALS_RATES = [350, 650, 1200, 2500, 5000];
+export const LOCAL_RATES = [150, 300, 600, 1200, 2500];
 
 export function haversineKm(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
   const R = 6371;
@@ -26,9 +26,9 @@ export type Intercity = { mode: 'train' | 'flight'; km: number; cost: number };
 
 export function intercityCost(from: City, to: City): Intercity {
   const km = haversineKm(from, to);
-  if (km < 500) return { mode: 'train', km, cost: Math.round(35 + 0.05 * km) };
-  if (km < 1500) return { mode: 'flight', km, cost: Math.round(60 + 0.04 * km) };
-  return { mode: 'flight', km, cost: Math.round(90 + 0.075 * km) };
+  if (km < 500) return { mode: 'train', km, cost: Math.round(500 + 2.5 * km) };
+  if (km < 1500) return { mode: 'flight', km, cost: Math.round(2500 + 3.5 * km) };
+  return { mode: 'flight', km, cost: Math.round(6000 + 6 * km) };
 }
 
 export type DayPlan = {

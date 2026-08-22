@@ -101,7 +101,7 @@ export default async function DashboardPage() {
             <div className="flex items-center justify-between">
               <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-600">Estimated Budget</span>
               <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
-                <i className="bi bi-currency-dollar"></i>
+                <i className="bi bi-currency-rupee"></i>
               </div>
             </div>
             <div className="text-4xl font-black font-display text-slate-900">

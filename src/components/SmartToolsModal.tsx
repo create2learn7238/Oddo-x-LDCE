@@ -64,7 +64,7 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
 
   // Expense Splitter State
   const [numTravelers, setNumTravelers] = useState<number>(4);
-  const [totalBill, setTotalBill] = useState<number>(1200);
+  const [totalBill, setTotalBill] = useState<number>(12000);
 
   // Quiz State
   const [quizScore, setQuizScore] = useState<number | null>(null);
@@ -106,7 +106,7 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
   const distanceKm = transitFrom === 'Ahmedabad' && transitTo === 'Mumbai' ? 530 : 1250;
   const speed = transitMode === 'flight' ? 650 : transitMode === 'train' ? 90 : 65;
   const hours = (distanceKm / speed).toFixed(1);
-  const costEst = transitMode === 'flight' ? Math.round(75 + distanceKm * 0.08) : transitMode === 'train' ? Math.round(25 + distanceKm * 0.04) : Math.round(40 + distanceKm * 0.06);
+  const costEst = transitMode === 'flight' ? Math.round(3500 + distanceKm * 4) : transitMode === 'train' ? Math.round(500 + distanceKm * 2) : Math.round(800 + distanceKm * 5);
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
@@ -564,7 +564,7 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
                 </div>
                 <div className="p-4 bg-white rounded-2xl border border-slate-200 text-center shadow-sm hover:border-emerald-400 transition-all">
                   <div className="text-xs text-slate-500 font-semibold">Estimated Fare</div>
-                  <div className="text-2xl font-extrabold text-emerald-700 mt-1">${costEst}</div>
+                  <div className="text-2xl font-extrabold text-emerald-700 mt-1">₹{costEst.toLocaleString('en-IN')}</div>
                   <div className="text-[11px] text-slate-400 mt-0.5">Per person base rate</div>
                 </div>
               </div>
@@ -593,7 +593,7 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">Total Trip Budget ($)</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">Total Trip Budget (₹ INR)</label>
                   <input
                     type="number"
                     value={totalBill}
@@ -609,11 +609,11 @@ export function SmartToolsModal({ isOpen, onClose }: { isOpen: boolean; onClose:
                   <span className="px-2.5 py-1 text-xs bg-white/20 font-bold rounded-lg">{numTravelers} People</span>
                 </div>
                 <div className="text-3xl font-black font-display text-white">
-                  ${(totalBill / numTravelers).toFixed(2)} <span className="text-xs font-normal text-amber-200">/ person</span>
+                  ₹{(totalBill / numTravelers).toLocaleString('en-IN')} <span className="text-xs font-normal text-amber-200">/ person</span>
                 </div>
                 <div className="pt-3 border-t border-amber-500/40 text-xs text-amber-100 flex items-center justify-between">
                   <span>Recommended +10% Emergency Buffer:</span>
-                  <span className="font-bold text-white">${((totalBill * 1.1) / numTravelers).toFixed(2)}</span>
+                  <span className="font-bold text-white">₹{((totalBill * 1.1) / numTravelers).toLocaleString('en-IN')}</span>
                 </div>
               </div>
             </div>

@@ -86,11 +86,11 @@ export function CountUp({ value, money = false, prefix = '', duration = 900 }: {
     return () => io.disconnect();
   }, [value, duration]);
 
-  const n = Math.round(display).toLocaleString('en-US');
+  const n = Math.round(display).toLocaleString('en-IN');
   return (
     <span ref={ref} className="count-up">
       {prefix}
-      {money ? '$' + n : n}
+      {money ? '₹' + n : n}
     </span>
   );
 }

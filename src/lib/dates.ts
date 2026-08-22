@@ -51,5 +51,5 @@ export function monthLabel(date: Date): string {
 }
 
 export function fmtMoney(n: number): string {
-  return '$' + Math.round(n).toLocaleString('en-US');
+  return '₹' + Math.round(n).toLocaleString('en-IN');
 }
