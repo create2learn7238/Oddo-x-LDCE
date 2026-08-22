@@ -98,12 +98,13 @@ function CitySearchInner({ cities, regions, savedIds: initialSaved, initialQ, tr
   };
 
   return (
-    <div className="container-wide">
+    <div className="container-wide py-8 space-y-8">
+      
       {/* Header Bar */}
       <div className="page-head">
         <div>
-          <h1 className="page-title">City Discovery & Exploration</h1>
-          <p className="page-sub">{cities.length} global & regional destinations across {countries.length} countries.</p>
+          <h1 className="page-title text-3xl md:text-4xl font-black font-display text-slate-900">City Discovery & Destinations</h1>
+          <p className="page-sub text-slate-500 text-sm mt-1">{cities.length} global & regional destinations across {countries.length} countries.</p>
         </div>
         {trip && (
           <span className="badge badge-teal" style={{ padding: '10px 18px', fontSize: 14 }}>
@@ -112,44 +113,105 @@ function CitySearchInner({ cities, regions, savedIds: initialSaved, initialQ, tr
         )}
       </div>
 
-      {/* Filter Card */}
-      <div className="card card-pad mb-16" style={{ padding: 24, marginBottom: 24, borderRadius: 20 }}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ marginBottom: 16 }}>
-          <div className="field" style={{ marginBottom: 0 }}>
-            <label className="label">Search Destinations</label>
-            <input className="input" placeholder="Search city, country or region…" value={q} onChange={(e) => setQ(e.target.value)} />
+      {/* Glassmorphic Filter Hero Card */}
+      <div className="relative overflow-hidden p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-teal-950 to-slate-950 text-white shadow-2xl border border-teal-500/30 space-y-6">
+        
+        <div className="flex items-center justify-between border-b border-teal-800/40 pb-4">
+          <div className="flex items-center gap-2 text-xs font-bold text-teal-300 uppercase tracking-wider">
+            <i className="bi bi-compass-fill text-amber-400"></i> Destination Search Engine
           </div>
-          <div className="field" style={{ marginBottom: 0 }}>
-            <label className="label">Filter Region</label>
-            <select className="select" value={region} onChange={(e) => setRegion(e.target.value)}>
-              <option value="">All Regions</option>
+          {(q || region || country) && (
+            <button
+              onClick={() => { setQ(''); setRegion(''); setCountry(''); }}
+              className="text-xs font-bold text-amber-400 hover:underline flex items-center gap-1"
+            >
+              <i className="bi bi-x-circle-fill"></i> Reset Search
+            </button>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Keyword Search</label>
+            <input
+              className="w-full px-4 py-3 rounded-2xl bg-slate-800/90 border border-slate-700 text-white placeholder-slate-400 text-xs font-bold focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              placeholder="Search city, country or region…"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Region Filter</label>
+            <select
+              className="w-full px-4 py-3 rounded-2xl bg-slate-800/90 border border-slate-700 text-white text-xs font-bold focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              value={region}
+              onChange={(e) => setRegion(e.target.value)}
+            >
+              <option value="">All Regions ({regions.length})</option>
               {regions.map((r) => (
                 <option key={r} value={r}>{r}</option>
               ))}
             </select>
           </div>
-          <div className="field" style={{ marginBottom: 0 }}>
-            <label className="label">Filter Country</label>
-            <select className="select" value={country} onChange={(e) => setCountry(e.target.value)}>
-              <option value="">All Countries</option>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Country Filter</label>
+            <select
+              className="w-full px-4 py-3 rounded-2xl bg-slate-800/90 border border-slate-700 text-white text-xs font-bold focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+            >
+              <option value="">All Countries ({countries.length})</option>
               {countries.map((c) => (
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
           </div>
         </div>
-        <div className="flex gap-2 wrap">
-          {regions.map((r) => (
-            <button key={r} className={`chip ${region === r ? 'active' : ''}`} onClick={() => setRegion(region === r ? '' : r)}>
-              {r}
+
+        {/* Region Pills */}
+        <div>
+          <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2.5">Quick Region Chips</label>
+          <div className="flex flex-wrap gap-2.5">
+            <button
+              onClick={() => setRegion('')}
+              className={`px-4 py-2.5 rounded-2xl text-xs font-extrabold transition-all flex items-center gap-2 ${
+                region === ''
+                  ? 'bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/30 scale-105'
+                  : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700 border border-slate-700'
+              }`}
+            >
+              🌐 All Regions
             </button>
-          ))}
+
+            {regions.map((r) => {
+              const selected = region === r;
+              return (
+                <button
+                  key={r}
+                  onClick={() => setRegion(selected ? '' : r)}
+                  className={`px-4 py-2.5 rounded-2xl text-xs font-extrabold transition-all ${
+                    selected
+                      ? 'bg-teal-500 text-slate-950 shadow-lg shadow-teal-500/30 scale-105'
+                      : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700 border border-slate-700'
+                  }`}
+                >
+                  {r}
+                </button>
+              );
+            })}
+          </div>
         </div>
+
       </div>
 
-      <p className="faint mb-16" style={{ fontWeight: 700, color: '#475569' }}>Showing {list.length} destinations</p>
+      <div className="flex items-center justify-between text-xs font-bold text-slate-600">
+        <span>Showing {list.length} destinations</span>
+        {list.length > 0 && <span className="text-teal-700 font-mono">MATCHES FOUND</span>}
+      </div>
 
-      {/* Responsive Cards Grid */}
+      {/* Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {list.map((c, i) => {
           const photo = cityPhoto(c.name);
@@ -158,7 +220,7 @@ function CitySearchInner({ cities, regions, savedIds: initialSaved, initialQ, tr
             <Reveal key={c.id} delay={(i % 4) * 70}>
               <div className="card card-hover flex flex-col h-full overflow-hidden rounded-3xl border border-slate-200 shadow-md">
                 
-                {/* Photo Top Frame */}
+                {/* Photo Frame */}
                 <div className="relative h-48 w-full overflow-hidden bg-slate-900 flex-shrink-0">
                   {photo ? (
                     <CityPhoto src={photo} alt={c.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" sizes="380px" />
@@ -169,7 +231,7 @@ function CitySearchInner({ cities, regions, savedIds: initialSaved, initialQ, tr
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30"></div>
                   
-                  {/* Top Badges */}
+                  {/* Badges */}
                   <div className="absolute top-3 left-3 flex items-center gap-2">
                     <span className="px-2.5 py-1 rounded-full bg-slate-900/80 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1 border border-white/20">
                       <span>{c.emoji}</span> {c.country}
@@ -208,7 +270,7 @@ function CitySearchInner({ cities, regions, savedIds: initialSaved, initialQ, tr
                     </p>
                   </div>
 
-                  {/* Actions Bar */}
+                  {/* Actions */}
                   <div className="pt-3 border-t border-slate-100 flex gap-2">
                     <button
                       className="flex-1 py-2.5 px-3 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-md shadow-teal-600/20 transition-all flex items-center justify-center gap-1.5 hover:scale-[1.02]"
@@ -234,12 +296,10 @@ function CitySearchInner({ cities, regions, savedIds: initialSaved, initialQ, tr
       </div>
 
       {list.length === 0 && (
-        <div className="card card-pad mt-8">
-          <div className="empty">
-            <div className="big">🔭</div>
-            <div style={{ fontWeight: 800, color: 'var(--ink)', fontSize: 18 }}>No destinations match your search</div>
-            <p className="muted mt-8">Try adjusting your keywords or clearing the region/country filters.</p>
-          </div>
+        <div className="p-12 rounded-3xl bg-white border border-slate-200 text-center space-y-3 shadow-sm">
+          <div className="text-5xl">🔭</div>
+          <h3 className="text-xl font-bold text-slate-900 font-display">No destinations match your search</h3>
+          <p className="text-slate-500 text-xs max-w-md mx-auto">Try adjusting your keywords or clearing the region/country filters.</p>
         </div>
       )}
 
@@ -252,7 +312,7 @@ function CitySearchInner({ cities, regions, savedIds: initialSaved, initialQ, tr
               <div className="badge badge-teal" style={{ padding: '10px 14px', fontSize: 14 }}>{trip.name}</div>
             ) : trips ? (
               <select
-                className="select"
+                className="select bg-white"
                 value={selTripId}
                 onChange={(e) => {
                   setSelTripId(e.target.value);
@@ -279,7 +339,7 @@ function CitySearchInner({ cities, regions, savedIds: initialSaved, initialQ, tr
               <input className="input" type="date" value={depDate} onChange={(e) => setDepDate(e.target.value)} required />
             </div>
           </div>
-          <div className="flex gap-8" style={{ justifyContent: 'flex-end', marginTop: 16 }}>
+          <div className="flex gap-3 justify-end mt-4">
             <button className="btn btn-ghost" onClick={() => setAddFor(null)}>Cancel</button>
             <button className="btn btn-primary" onClick={submitAdd} disabled={busy || !trip}>
               {busy ? 'Adding…' : 'Confirm & Add Stop'}
