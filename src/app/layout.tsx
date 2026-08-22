@@ -5,6 +5,7 @@ import { ActiveNav } from '@/components/ActiveNav';
 import { PageTransition } from '@/components/Anim';
 import { HeaderNav } from '@/components/HeaderNav';
 import { FloatingActionBar } from '@/components/FloatingActionBar';
+import { NetworkGraphBackground } from '@/components/NetworkGraphBackground';
 
 export const metadata: Metadata = {
   title: 'GlobeTrotter — Personalized Travel Planning Platform',
@@ -30,10 +31,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           rel="stylesheet"
         />
       </head>
-      <body suppressHydrationWarning className="bg-slate-50 text-slate-900 min-h-screen">
+      <body suppressHydrationWarning className="bg-slate-50 text-slate-900 min-h-screen relative">
+        {/* Full Viewport Background Node Graph with Continuous Traveling Pulses */}
+        <NetworkGraphBackground />
+
         <ActiveNav />
         <HeaderNav userSession={session} />
-        <PageTransition>{children}</PageTransition>
+        
+        <main className="relative z-10">
+          <PageTransition>{children}</PageTransition>
+        </main>
+
         <FloatingActionBar />
       </body>
     </html>
