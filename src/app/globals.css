@@ -100,10 +100,8 @@ p { margin: 0; }
 }
 .topbar-inner {
   max-width: 1380px; margin: 0 auto;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative;
   padding: 0 28px;
   height: 68px;
 }

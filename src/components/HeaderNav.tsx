@@ -63,8 +63,12 @@ export function HeaderNav({ userSession }: HeaderNavProps) {
             <span className="hidden sm:inline">GlobeTrotter</span>
           </Link>
 
-          {/* CENTER — Nav Links (absolutely centered) */}
-          <div className="hidden md:flex items-center justify-center gap-1 flex-1">
+          {/* CENTER — Nav Links (absolutely centered in viewport) */}
+          <div className="hidden md:flex items-center gap-1" style={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+          }}>
             {NAV_LINKS.map(({ href, label, icon }) => {
               const active = isActive(href);
               return (
