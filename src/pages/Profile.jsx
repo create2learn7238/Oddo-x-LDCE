@@ -4,6 +4,8 @@ import { useApp, THEMES, CURRENCIES } from '../context/AppContext'
 import { User, Mail, Camera, Trash2, Save, LogOut, Shield, Calendar, Globe, Palette, DollarSign, Check } from 'lucide-react'
 import EmergencyVault from '../components/EmergencyVault'
 import DataBackupModal from '../components/DataBackupModal'
+import VisaChecker from '../components/VisaChecker'
+import JetLagPlanner from '../components/JetLagPlanner'
 import { Database } from 'lucide-react'
 
 export default function Profile() {
@@ -240,6 +242,12 @@ export default function Profile() {
               })}
             </div>
           </div>
+
+          {/* Instant Visa Requirements Checker */}
+          <VisaChecker />
+
+          {/* Jet Lag & Timezone Circadian Optimizer */}
+          <JetLagPlanner />
 
           {/* Emergency Contacts & Travel Reference Vault */}
           <EmergencyVault />
