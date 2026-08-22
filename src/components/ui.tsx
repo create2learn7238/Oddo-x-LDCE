@@ -14,7 +14,7 @@ export function Modal({ title, onClose, children, wide }: { title: string; onClo
     <div className="modal-backdrop" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal" style={wide ? { maxWidth: 720 } : undefined}>
         <div className="flex items-center justify-between mb-16">
-          <h3 style={{ fontSize: 18 }}>{title}</h3>
+          <h3 style={{ fontSize: 18, color: '#042f2e', fontWeight: 800 }}>{title}</h3>
           <button className="icon-btn" onClick={onClose} aria-label="Close">✕</button>
         </div>
         {children}
@@ -34,7 +34,7 @@ export function useToast(): [string | null, (m: string) => void] {
   const show = (m: string) => {
     setMsg(m);
     if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => setMsg(null), 2600);
+    timer.current = setTimeout(() => setMsg(null), 2800);
   };
   return [msg, show];
 }
@@ -58,9 +58,20 @@ export function Empty({ emoji, title, sub, action }: { emoji: string; title: str
   return (
     <div className="empty">
       <div className="big">{emoji}</div>
-      <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--ink)' }}>{title}</div>
+      <div style={{ fontWeight: 700, fontSize: 17, color: 'var(--ink)' }}>{title}</div>
       {sub && <p className="muted mt-8" style={{ fontSize: 14 }}>{sub}</p>}
       {action && <div className="mt-16" style={{ display: 'flex', justifyContent: 'center' }}>{action}</div>}
+    </div>
+  );
+}
+
+/** Shimmer Skeleton Card for smooth loading states (21st.dev inspired) */
+export function SkeletonCard() {
+  return (
+    <div className="card p-4 space-y-3 animate-pulse">
+      <div className="h-40 bg-slate-200 rounded-xl w-full"></div>
+      <div className="h-5 bg-slate-200 rounded w-3/4"></div>
+      <div className="h-4 bg-slate-200 rounded w-1/2"></div>
     </div>
   );
 }
@@ -99,15 +110,15 @@ export function CityThumbX({ city, size = 44 }: { city: { name: string; color: s
 }
 
 export const TYPE_META: Record<string, { label: string; emoji: string; color: string }> = {
-  sightseeing: { label: 'Sightseeing', emoji: '📸', color: '#6366f1' },
-  food: { label: 'Food & Drink', emoji: '🍜', color: '#f59e0b' },
-  culture: { label: 'Culture', emoji: '🏛️', color: '#a855f7' },
+  sightseeing: { label: 'Sightseeing', emoji: '📸', color: '#0d9488' },
+  food: { label: 'Food & Drink', emoji: '🍜', color: '#d97706' },
+  culture: { label: 'Culture', emoji: '🏛️', color: '#8b5cf6' },
   adventure: { label: 'Adventure', emoji: '🧗', color: '#ef4444' },
   shopping: { label: 'Shopping', emoji: '🛍️', color: '#ec4899' },
   nightlife: { label: 'Nightlife', emoji: '🌙', color: '#3b82f6' },
-  outdoors: { label: 'Outdoors', emoji: '🌿', color: '#14b8a6' },
+  outdoors: { label: 'Outdoors', emoji: '🌿', color: '#10b981' },
 };
 
 export function typeMeta(t: string) {
-  return TYPE_META[t] ?? { label: t, emoji: '✨', color: '#64748b' };
+  return TYPE_META[t] ?? { label: t, emoji: '✨', color: '#0d9488' };
 }
