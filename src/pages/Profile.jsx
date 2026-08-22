@@ -6,6 +6,7 @@ import EmergencyVault from '../components/EmergencyVault'
 import DataBackupModal from '../components/DataBackupModal'
 import VisaChecker from '../components/VisaChecker'
 import JetLagPlanner from '../components/JetLagPlanner'
+import TravelBadges from '../components/TravelBadges'
 import { Database } from 'lucide-react'
 
 export default function Profile() {
@@ -96,6 +97,9 @@ export default function Profile() {
           </div>
         </div>
       </div>
+
+      {/* Explorer Badges & Travel Milestones */}
+      <TravelBadges />
 
       {/* Tabs Row with Backup Action */}
       <div className="flex-between" style={{ marginBottom:'var(--space-6)', flexWrap:'wrap', gap:'var(--space-3)' }}>
