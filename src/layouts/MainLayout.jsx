@@ -118,100 +118,103 @@ export default function MainLayout() {
         </div>
       </aside>
 
-      {/* Navbar */}
-      <header className="navbar">
-        <div className="navbar-left">
-          <button className="hamburger" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Toggle menu">
-            {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-          <h1 className="navbar-title">{getPageTitle()}</h1>
-        </div>
-
-        <div className="navbar-right">
-          {/* Live DB Connection Badge */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            background: dbStatus === 'connected' ? 'var(--color-success-bg)' : 'var(--color-warning-bg)',
-            border: `1px solid ${dbStatus === 'connected' ? 'rgba(16,185,129,0.3)' : 'rgba(245,158,11,0.3)'}`,
-            borderRadius: 'var(--radius-full)',
-            padding: '4px 10px',
-            fontSize: '11px',
-            color: dbStatus === 'connected' ? 'var(--color-success)' : 'var(--color-warning)',
-            fontWeight: 600
-          }} title="PostgreSQL Neon DB Connection Status">
-            <span style={{
-              width: 7, height: 7, borderRadius: '50%',
-              background: dbStatus === 'connected' ? 'var(--color-success)' : 'var(--color-warning)',
-              display: 'inline-block',
-              boxShadow: `0 0 8px ${dbStatus === 'connected' ? 'var(--color-success)' : 'var(--color-warning)'}`
-            }} />
-            {dbStatus === 'connected' ? 'Neon Postgres' : 'Offline Cache'}
+      {/* Main Wrapper to clear sidebar */}
+      <div className="main-wrapper">
+        {/* Navbar */}
+        <header className="navbar">
+          <div className="navbar-left">
+            <button className="hamburger" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Toggle menu">
+              {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+            <h1 className="navbar-title">{getPageTitle()}</h1>
           </div>
 
-          {/* Currency Switcher */}
-          <select
-            value={currency}
-            onChange={(e) => setCurrency(e.target.value)}
-            style={{
-              padding: '4px 10px',
+          <div className="navbar-right">
+            {/* Live DB Connection Badge */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              background: dbStatus === 'connected' ? 'var(--color-success-bg)' : 'var(--color-warning-bg)',
+              border: `1px solid ${dbStatus === 'connected' ? 'rgba(16,185,129,0.3)' : 'rgba(245,158,11,0.3)'}`,
               borderRadius: 'var(--radius-full)',
-              background: 'var(--color-surface2)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text)',
-              fontSize: '12px',
-              fontWeight: 600,
-              cursor: 'pointer'
-            }}
-            title="Switch display currency"
-          >
-            {Object.entries(CURRENCIES).map(([code, cur]) => (
-              <option key={code} value={code}>
-                {cur.symbol} {code}
-              </option>
-            ))}
-          </select>
+              padding: '4px 10px',
+              fontSize: '11px',
+              color: dbStatus === 'connected' ? 'var(--color-success)' : 'var(--color-warning)',
+              fontWeight: 600
+            }} title="PostgreSQL Neon DB Connection Status">
+              <span style={{
+                width: 7, height: 7, borderRadius: '50%',
+                background: dbStatus === 'connected' ? 'var(--color-success)' : 'var(--color-warning)',
+                display: 'inline-block',
+                boxShadow: `0 0 8px ${dbStatus === 'connected' ? 'var(--color-success)' : 'var(--color-warning)'}`
+              }} />
+              {dbStatus === 'connected' ? 'Neon Postgres' : 'Offline Cache'}
+            </div>
 
-          {/* Theme Palette Button */}
-          <button
-            className="btn btn-secondary btn-sm"
-            onClick={() => setShowThemeModal(true)}
-            style={{ padding: '6px 10px' }}
-            title="Change Theme & Color Palette"
-          >
-            <Palette size={14} />
-            <span style={{ display: 'none', '@media (min-width: 600px)': { display: 'inline' } }}>Themes</span>
-          </button>
-
-          <button
-            className="btn btn-primary btn-sm"
-            onClick={() => navigate('/trips/new')}
-            aria-label="Plan new trip"
-          >
-            <Plus size={14} />
-            New Trip
-          </button>
-
-          <div
-            style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer' }}
-            onClick={() => navigate('/profile')}
-          >
-            <div
-              className="avatar-placeholder avatar-sm"
-              style={{ fontSize: '12px', width: 36, height: 36 }}
-              title={user?.name}
+            {/* Currency Switcher */}
+            <select
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+              style={{
+                padding: '4px 10px',
+                borderRadius: 'var(--radius-full)',
+                background: 'var(--color-surface2)',
+                border: '1px solid var(--color-border)',
+                color: 'var(--color-text)',
+                fontSize: '12px',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+              title="Switch display currency"
             >
-              {initials}
+              {Object.entries(CURRENCIES).map(([code, cur]) => (
+                <option key={code} value={code}>
+                  {cur.symbol} {code}
+                </option>
+              ))}
+            </select>
+
+            {/* Theme Palette Button */}
+            <button
+              className="btn btn-secondary btn-sm"
+              onClick={() => setShowThemeModal(true)}
+              style={{ padding: '6px 10px' }}
+              title="Change Theme & Color Palette"
+            >
+              <Palette size={14} />
+              <span>Themes</span>
+            </button>
+
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => navigate('/trips/new')}
+              aria-label="Plan new trip"
+            >
+              <Plus size={14} />
+              New Trip
+            </button>
+
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer' }}
+              onClick={() => navigate('/profile')}
+            >
+              <div
+                className="avatar-placeholder avatar-sm"
+                style={{ fontSize: '12px', width: 36, height: 36 }}
+                title={user?.name}
+              >
+                {initials}
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Content */}
-      <main className="main-content">
-        <Outlet />
-      </main>
+        {/* Main Content */}
+        <main className="main-content">
+          <Outlet />
+        </main>
+      </div>
 
       {/* Theme Picker Modal */}
       {showThemeModal && (

@@ -5,8 +5,9 @@ const GALLERY_ITEMS = [
   {
     title: 'Great Rann of Kutch',
     location: 'Dhordo, Kutch, Gujarat',
-    image: 'https://images.unsplash.com/photo-1609137144822-79015c7e14d3?w=1000&auto=format&fit=crop&q=80',
-    caption: 'Full-moon starlight reflecting off the boundless white salt crystals.',
+    image: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=1000&auto=format&fit=crop&q=80',
+    fallbackGrad: 'linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4338CA 100%)',
+    caption: 'Full-moon starlight reflecting across the boundless white salt plains.',
     stamp: 'KUTCH · DESERT SAFARI',
     stampColor: '#F59E0B',
     tag: 'White Desert'
@@ -15,7 +16,8 @@ const GALLERY_ITEMS = [
     title: 'Asiatic Lions in Sasan Gir',
     location: 'Gir Forest National Park, Gujarat',
     image: 'https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=1000&auto=format&fit=crop&q=80',
-    caption: 'Majestic Asiatic Lioness patrolling her sanctuary in the golden morning light.',
+    fallbackGrad: 'linear-gradient(135deg, #064E3B 0%, #047857 50%, #059669 100%)',
+    caption: 'Majestic Asiatic Lioness patrolling her sanctuary in golden forest sunlight.',
     stamp: 'GIR FOREST · WILD RESERVE',
     stampColor: '#10B981',
     tag: 'Wildlife Safari'
@@ -23,7 +25,8 @@ const GALLERY_ITEMS = [
   {
     title: 'Statue of Unity & Narmada',
     location: 'Ekta Nagar, Kevadia, Gujarat',
-    image: 'https://images.unsplash.com/photo-1629813352774-722a49b6f849?w=1000&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1000&auto=format&fit=crop&q=80',
+    fallbackGrad: 'linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 50%, #3B82F6 100%)',
     caption: '182-meter monumental colossus overlooking the Sardar Sarovar reservoir.',
     stamp: 'UNITY · 182 METERS',
     stampColor: '#06B6D4',
@@ -33,7 +36,8 @@ const GALLERY_ITEMS = [
     title: 'Adalaj Stepwell (Vav)',
     location: 'Adalaj, Gandhinagar, Gujarat',
     image: 'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?w=1000&auto=format&fit=crop&q=80',
-    caption: '5-story carved subterranean Solanki-era Indo-Islamic stone masterwork.',
+    fallbackGrad: 'linear-gradient(135deg, #831843 0%, #BE185D 50%, #DB2777 100%)',
+    caption: '5-story subterranean Solanki-era Indo-Islamic carved stone marvel.',
     stamp: 'UNESCO · SOLANKI HERITAGE',
     stampColor: '#EC4899',
     tag: 'Ancient Architecture'
@@ -42,7 +46,8 @@ const GALLERY_ITEMS = [
     title: 'Somnath Shore Temple',
     location: 'Prabhas Patan, Veraval, Gujarat',
     image: 'https://images.unsplash.com/photo-1609766857041-ed402ea8069a?w=1000&auto=format&fit=crop&q=80',
-    caption: 'Sacred Jyotirlinga shrine standing resilient against crashing Arabian Sea waves.',
+    fallbackGrad: 'linear-gradient(135deg, #4C1D95 0%, #6D28D9 50%, #7C3AED 100%)',
+    caption: 'Sacred Jyotirlinga shrine standing resilient against roaring Arabian Sea tides.',
     stamp: 'SOMNATH · JYOTIRLINGA',
     stampColor: '#8B5CF6',
     tag: 'Ocean Temple'
@@ -52,6 +57,7 @@ const GALLERY_ITEMS = [
 export default function SkeuoPhotoGallery() {
   const [currentIdx, setCurrentIdx] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
+  const [imgError, setImgError] = useState({})
 
   const nextSlide = () => setCurrentIdx((prev) => (prev + 1) % GALLERY_ITEMS.length)
   const prevSlide = () => setCurrentIdx((prev) => (prev - 1 + GALLERY_ITEMS.length) % GALLERY_ITEMS.length)
@@ -108,7 +114,7 @@ export default function SkeuoPhotoGallery() {
         borderRadius: 8,
         padding: '16px 16px 28px 16px',
         boxShadow: '0 1px 0 rgba(255,255,255,0.8) inset, 0 12px 36px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4)',
-        transform: 'rotate(-0.6deg)',
+        transform: 'rotate(-0.5deg)',
         transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
         position: 'relative'
       }}>
@@ -120,9 +126,9 @@ export default function SkeuoPhotoGallery() {
           transform: 'translateX(-50%) rotate(2deg)',
           width: 110,
           height: 26,
-          background: 'rgba(255, 245, 205, 0.55)',
+          background: 'rgba(255, 245, 205, 0.65)',
           backdropFilter: 'blur(4px)',
-          border: '1px solid rgba(255,255,255,0.3)',
+          border: '1px solid rgba(255,255,255,0.4)',
           boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
           zIndex: 10
         }} />
@@ -133,18 +139,38 @@ export default function SkeuoPhotoGallery() {
           height: 380,
           borderRadius: 4,
           overflow: 'hidden',
+          background: item.fallbackGrad,
           boxShadow: 'inset 0 0 12px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.2)'
         }}>
-          <img
-            src={item.image}
-            alt={item.title}
-            style={{
+          {!imgError[item.title] ? (
+            <img
+              src={item.image}
+              alt={item.title}
+              onError={() => setImgError(prev => ({ ...prev, [item.title]: true }))}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                transition: 'transform 0.6s ease'
+              }}
+            />
+          ) : (
+            <div style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
-              transition: 'transform 0.6s ease'
-            }}
-          />
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#FFF',
+              padding: 20,
+              textAlign: 'center'
+            }}>
+              <span style={{ fontSize: '4rem', marginBottom: 12 }}>🌅</span>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 800 }}>{item.title}</h3>
+              <p style={{ fontSize: '0.9rem', opacity: 0.85 }}>{item.location}</p>
+            </div>
+          )}
 
           {/* Photo Gloss Highlight */}
           <div style={{
@@ -186,7 +212,7 @@ export default function SkeuoPhotoGallery() {
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
             transform: 'rotate(-12deg)',
-            background: 'rgba(0,0,0,0.65)',
+            background: 'rgba(0,0,0,0.7)',
             backdropFilter: 'blur(6px)',
             boxShadow: `0 0 12px ${item.stampColor}44`,
             userSelect: 'none'
