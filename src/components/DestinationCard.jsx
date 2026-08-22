@@ -1,13 +1,31 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Star, DollarSign, Plus, Heart, Calendar } from 'lucide-react'
+import { Star, DollarSign, Plus, Heart, Calendar, MapPin } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 
 const costColor = { Low: 'var(--color-success)', Medium: 'var(--color-warning)', High: 'var(--color-danger)' }
+
+const FALLBACK_IMAGES = {
+  'c_kutch': 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=800&auto=format&fit=crop&q=80',
+  'c_statue_of_unity': 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&auto=format&fit=crop&q=80',
+  'c_somnath': 'https://images.unsplash.com/photo-1609766857041-ed402ea8069a?w=800&auto=format&fit=crop&q=80',
+  'c_ahmedabad': 'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?w=800&auto=format&fit=crop&q=80',
+  'c_gir': 'https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=800&auto=format&fit=crop&q=80',
+  default: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80'
+}
 
 export default function DestinationCard({ city }) {
   const navigate = useNavigate()
   const { favorites, toggleFavorite, formatPrice } = useApp()
   const isFav = favorites.includes(city.id)
+  const [imgSrc, setImgSrc] = useState(city.image)
+
+  const handleImageError = () => {
+    const fallback = FALLBACK_IMAGES[city.id] || FALLBACK_IMAGES.default
+    if (imgSrc !== fallback) {
+      setImgSrc(fallback)
+    }
+  }
 
   return (
     <div
@@ -18,10 +36,11 @@ export default function DestinationCard({ city }) {
       aria-label={`Destination: ${city.name}, ${city.country}`}
     >
       {/* Image */}
-      <div style={{ position:'relative',height:170,overflow:'hidden' }}>
+      <div style={{ position:'relative',height:180,overflow:'hidden',background:'var(--color-surface3)' }}>
         <img
-          src={city.image}
+          src={imgSrc || FALLBACK_IMAGES.default}
           alt={city.name}
+          onError={handleImageError}
           style={{ width:'100%',height:'100%',objectFit:'cover',transition:'transform 0.4s ease' }}
           onMouseOver={e => e.currentTarget.style.transform='scale(1.06)'}
           onMouseOut={e => e.currentTarget.style.transform='scale(1)'}
