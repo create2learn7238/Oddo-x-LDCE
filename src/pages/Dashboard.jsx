@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import TripCard from '../components/TripCard'
 import DestinationCard from '../components/DestinationCard'
+import TravelerReviews from '../components/TravelerReviews'
 import {
   Plus, Compass, MapPin, Sparkles, TrendingUp,
   Calendar, CheckCircle, ArrowRight, Heart, Plane, Shield
@@ -231,6 +232,11 @@ export default function Dashboard() {
           </div>
 
         </div>
+      </div>
+
+      {/* Verified Traveler Reviews & Feed */}
+      <div style={{ marginTop: 'var(--space-10)' }}>
+        <TravelerReviews />
       </div>
 
       {/* 1-Click Generator Modal */}
