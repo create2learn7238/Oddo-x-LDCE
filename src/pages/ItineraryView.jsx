@@ -10,6 +10,7 @@ import WeatherWidget from '../components/WeatherWidget'
 import TripCountdown from '../components/TripCountdown'
 import LanguagePhrasebook from '../components/LanguagePhrasebook'
 import CarbonCalculator from '../components/CarbonCalculator'
+import TravelJournal from '../components/TravelJournal'
 
 function formatDate(d) {
   return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' })
@@ -180,6 +181,7 @@ export default function ItineraryView() {
           { id:'packing',     icon:<CheckSquare size={15}/>, label:'Packing Checklist' },
           { id:'phrasebook',  icon:<span>🗣️</span>,          label:'Language Phrasebook' },
           { id:'carbon',      icon:<span>🌿</span>,          label:'Eco Footprint' },
+          { id:'journal',     icon:<span>📖</span>,          label:'Travel Journal' },
         ].map(({id,icon,label}) => (
           <button
             key={id}
@@ -424,6 +426,10 @@ export default function ItineraryView() {
 
       {viewMode === 'carbon' && (
         <CarbonCalculator stops={trip.stops} />
+      )}
+
+      {viewMode === 'journal' && (
+        <TravelJournal tripId={trip.id} />
       )}
     </div>
   )

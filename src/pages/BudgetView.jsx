@@ -7,6 +7,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend
 } from 'recharts'
 import ExpenseSplitter from '../components/ExpenseSplitter'
+import BudgetOptimizer from '../components/BudgetOptimizer'
 
 const COLORS = ['#6C63FF','#FF6584','#43E97B','#F7971E','#38BDF8','#a855f7']
 
@@ -188,6 +189,9 @@ export default function BudgetView() {
           </div>
         </div>
       )}
+
+      {/* AI Smart Budget Optimizer */}
+      <BudgetOptimizer trip={trip} />
 
       {/* Charts Row */}
       {grandTotal > 0 && (
