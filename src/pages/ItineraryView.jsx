@@ -7,6 +7,9 @@ import {
 } from 'lucide-react'
 import RouteVisualizer from '../components/RouteVisualizer'
 import WeatherWidget from '../components/WeatherWidget'
+import TripCountdown from '../components/TripCountdown'
+import LanguagePhrasebook from '../components/LanguagePhrasebook'
+import CarbonCalculator from '../components/CarbonCalculator'
 
 function formatDate(d) {
   return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' })
@@ -144,6 +147,9 @@ export default function ItineraryView() {
         </div>
       </div>
 
+      {/* Live Trip Departure Countdown */}
+      <TripCountdown startDate={trip.startDate} endDate={trip.endDate} tripName={trip.name} />
+
       {/* Stats Row */}
       <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:'var(--space-4)',marginBottom:'var(--space-6)' }}>
         {[
@@ -167,11 +173,13 @@ export default function ItineraryView() {
       <WeatherWidget stops={trip.stops} />
 
       {/* View Mode Switcher */}
-      <div style={{ display:'flex',gap:'var(--space-2)',marginBottom:'var(--space-6)',background:'var(--color-surface)',borderRadius:'var(--radius-md)',padding:4,width:'fit-content',border:'1px solid var(--color-border)' }}>
+      <div style={{ display:'flex',gap:'var(--space-2)',marginBottom:'var(--space-6)',background:'var(--color-surface)',borderRadius:'var(--radius-md)',padding:4,width:'fit-content',border:'1px solid var(--color-border)',flexWrap:'wrap' }}>
         {[
-          { id:'list',     icon:<List size={15}/>,       label:'List View' },
-          { id:'calendar', icon:<Calendar size={15}/>,   label:'Calendar View' },
-          { id:'packing',  icon:<CheckSquare size={15}/>,label:'Packing Checklist' },
+          { id:'list',        icon:<List size={15}/>,        label:'Day Itinerary' },
+          { id:'calendar',    icon:<Calendar size={15}/>,    label:'Calendar View' },
+          { id:'packing',     icon:<CheckSquare size={15}/>, label:'Packing Checklist' },
+          { id:'phrasebook',  icon:<span>🗣️</span>,          label:'Language Phrasebook' },
+          { id:'carbon',      icon:<span>🌿</span>,          label:'Eco Footprint' },
         ].map(({id,icon,label}) => (
           <button
             key={id}
@@ -408,6 +416,14 @@ export default function ItineraryView() {
             })}
           </div>
         </div>
+      )}
+
+      {viewMode === 'phrasebook' && (
+        <LanguagePhrasebook />
+      )}
+
+      {viewMode === 'carbon' && (
+        <CarbonCalculator stops={trip.stops} />
       )}
     </div>
   )
