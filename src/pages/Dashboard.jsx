@@ -4,6 +4,8 @@ import { useApp } from '../context/AppContext'
 import TripCard from '../components/TripCard'
 import DestinationCard from '../components/DestinationCard'
 import TravelerReviews from '../components/TravelerReviews'
+import CurrencyTicker from '../components/CurrencyTicker'
+import AmbientSoundscape from '../components/AmbientSoundscape'
 import {
   Plus, Compass, MapPin, Sparkles, TrendingUp,
   Calendar, CheckCircle, ArrowRight, Heart, Plane, Shield
@@ -92,6 +94,9 @@ export default function Dashboard() {
 
   return (
     <div className="page-container animate-fadeIn">
+      {/* Live FX Rates Ticker */}
+      <CurrencyTicker />
+
       {/* Top Welcome Hero Banner */}
       <div style={{
         background: 'var(--grad-hero)',
@@ -237,6 +242,11 @@ export default function Dashboard() {
       {/* Verified Traveler Reviews & Feed */}
       <div style={{ marginTop: 'var(--space-10)' }}>
         <TravelerReviews />
+      </div>
+
+      {/* Ambient Destination Soundscapes */}
+      <div style={{ marginTop: 'var(--space-8)' }}>
+        <AmbientSoundscape />
       </div>
 
       {/* 1-Click Generator Modal */}
