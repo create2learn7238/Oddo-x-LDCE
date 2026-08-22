@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useApp, THEMES, CURRENCIES } from '../context/AppContext'
 import { User, Mail, Camera, Trash2, Save, LogOut, Shield, Calendar, Globe, Palette, DollarSign, Check } from 'lucide-react'
 import EmergencyVault from '../components/EmergencyVault'
+import DataBackupModal from '../components/DataBackupModal'
+import { Database } from 'lucide-react'
 
 export default function Profile() {
   const { user, login, logout, trips, showToast, theme, setTheme, currency, setCurrency } = useApp()
@@ -12,6 +14,7 @@ export default function Profile() {
   const [avatar, setAvatar] = useState(user?.avatar||null)
   const [saving, setSaving] = useState(false)
   const [tab, setTab] = useState('profile') // profile | appearance | danger
+  const [showBackup, setShowBackup] = useState(false)
 
   const userTrips = trips.filter(t => t.userId === user?.id)
 
@@ -92,23 +95,29 @@ export default function Profile() {
         </div>
       </div>
 
-      {/* Tabs */}
-      <div style={{ display:'flex',gap:'var(--space-2)',marginBottom:'var(--space-6)',background:'var(--color-surface)',borderRadius:'var(--radius-md)',padding:4,width:'fit-content',border:'1px solid var(--color-border)' }}>
-        {[
-          { id: 'profile', label: '👤 Profile' },
-          { id: 'appearance', label: '🎨 Themes & Currency' },
-          { id: 'danger', label: '⚠️ Account' }
-        ].map(t => (
-          <button key={t.id} onClick={() => setTab(t.id)} style={{
-            padding:'var(--space-2) var(--space-5)',borderRadius:'var(--radius-sm)',
-            background: tab===t.id ? (t.id==='danger'?'var(--color-danger)':'var(--color-primary)') : 'transparent',
-            color: tab===t.id ? '#fff' : 'var(--color-text-muted)',
-            fontWeight: tab===t.id ? 600 : 400,fontSize:'var(--fs-sm)',cursor:'pointer',border:'none',
-            transition:'all var(--transition-fast)',
-          }}>
-            {t.label}
-          </button>
-        ))}
+      {/* Tabs Row with Backup Action */}
+      <div className="flex-between" style={{ marginBottom:'var(--space-6)', flexWrap:'wrap', gap:'var(--space-3)' }}>
+        <div style={{ display:'flex',gap:'var(--space-2)',background:'var(--color-surface)',borderRadius:'var(--radius-md)',padding:4,width:'fit-content',border:'1px solid var(--color-border)' }}>
+          {[
+            { id: 'profile', label: '👤 Profile' },
+            { id: 'appearance', label: '🎨 Themes & Currency' },
+            { id: 'danger', label: '⚠️ Account' }
+          ].map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)} style={{
+              padding:'var(--space-2) var(--space-5)',borderRadius:'var(--radius-sm)',
+              background: tab===t.id ? (t.id==='danger'?'var(--color-danger)':'var(--color-primary)') : 'transparent',
+              color: tab===t.id ? '#fff' : 'var(--color-text-muted)',
+              fontWeight: tab===t.id ? 600 : 400,fontSize:'var(--fs-sm)',cursor:'pointer',border:'none',
+              transition:'all var(--transition-fast)',
+            }}>
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        <button className="btn btn-secondary btn-sm" onClick={() => setShowBackup(true)}>
+          <Database size={14} color="var(--color-primary-light)" /> Data Backup & Export
+        </button>
       </div>
 
       {tab === 'profile' && (
@@ -268,6 +277,9 @@ export default function Profile() {
           </div>
         </div>
       )}
+
+      {/* Data Backup Modal */}
+      <DataBackupModal isOpen={showBackup} onClose={() => setShowBackup(false)} />
     </div>
   )
 }
