@@ -176,6 +176,8 @@ export default function SharedView() {
               </div>
             )
           })}
+        </div>
+
         {/* Shareable QR Code */}
         <QRCodeShare tripId={trip.id} tripName={trip.name} />
 

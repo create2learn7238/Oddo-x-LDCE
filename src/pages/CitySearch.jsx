@@ -9,6 +9,8 @@ import AudioCityGuide from '../components/AudioCityGuide'
 import TravelScavengerHunt from '../components/TravelScavengerHunt'
 import LocalEtiquetteAI from '../components/LocalEtiquetteAI'
 import GoldenHourSpotter from '../components/GoldenHourSpotter'
+import HandicraftGuide from '../components/HandicraftGuide'
+import TransitHubNavigator from '../components/TransitHubNavigator'
 import { useApp } from '../context/AppContext'
 
 const REGIONS = ['All', 'India', 'Europe', 'Asia', 'Americas', 'Middle East']
@@ -170,6 +172,16 @@ export default function CitySearch() {
       {/* Pro Photography & Golden Hour Spotter */}
       <div style={{ marginTop: 'var(--space-8)' }}>
         <GoldenHourSpotter />
+      </div>
+
+      {/* Regional GI-Tagged Handicrafts & Artisan Guide */}
+      <div style={{ marginTop: 'var(--space-8)' }}>
+        <HandicraftGuide />
+      </div>
+
+      {/* Destination Transit Hubs & Connectivity Navigator */}
+      <div style={{ marginTop: 'var(--space-8)' }}>
+        <TransitHubNavigator />
       </div>
     </div>
   )
