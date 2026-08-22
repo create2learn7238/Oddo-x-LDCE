@@ -1,124 +1,158 @@
-# ✈️ GlobeTrotter — Personalized Travel Planning
+# 🦁 GlobeTrotter — Smart Multi-City Travel Planning Platform (India & Gujarat Edition)
 
-> Dream it. Plan it. Share it.
-> A complete multi-city travel planning application built for the GlobeTrotter hackathon.
+> **Dream it. Plan it. Share it.**  
+> An intelligent, full-stack multi-city travel planning application featuring interactive itinerary builders, day-by-day scheduling, automatic **Indian Rupee (₹ INR)** cost calculations, 3D animated canvas backgrounds, and a comprehensive travel smart tools suite.
 
-![stack](https://img.shields.io/badge/Next.js-15-black) ![prisma](https://img.shields.io/badge/Prisma-6-2D3748) ![db](https://img.shields.io/badge/SQLite-dev-003B57)
+---
 
-## What it does
+[![Next.js 15](https://img.shields.io/badge/Next.js-15.5.2-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Prisma 6](https://img.shields.io/badge/Prisma-6.4.1-2D3748?style=for-the-badge&logo=prisma)](https://www.prisma.io/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![SQLite](https://img.shields.io/badge/SQLite-dev.db-003B57?style=for-the-badge&logo=sqlite)](https://www.sqlite.org/)
+[![Currency](https://img.shields.io/badge/Currency-INR_(₹)-0d9488?style=for-the-badge)](#)
 
-GlobeTrotter is an end-to-end travel planning platform: users **create multi-city trips**, build
-day-by-day **itineraries** with stops and activities, get **automatic cost estimates & budget
-alerts**, visualize plans on **calendars and timelines**, and **share trips** publicly or copy
-community trips into their own account.
+---
 
-## Screens (all 13 from the spec)
+## 🌟 Key Features & Innovations
 
-| # | Screen | Route |
-|---|--------|-------|
-| 1 | Login / Signup / Forgot password | `/login` · `/signup` · `/forgot` |
-| 2 | Dashboard — welcome, trips, trending cities, budget highlights | `/dashboard` |
-| 3 | Create Trip (name, dates, description, cover, budget) | `/trips/new` |
-| 4 | My Trips — cards with view/edit/delete | `/trips` |
-| 5 | Itinerary Builder — add stops, dates, reorder cities, assign activities | `/trips/[id]/builder` |
-| 6 | Itinerary View — day-wise or grouped-by-city, activity time & cost | `/trips/[id]/itinerary` |
-| 7 | City Search — search, country/region filters, save, add to trip | `/cities` |
-| 8 | Activity Search — type/cost/duration filters, quick view, add to trip | `/activities` |
-| 9 | Trip Budget & Cost Breakdown — donut + bar charts, over-budget alerts | `/trips/[id]/budget` |
-| 10 | Trip Calendar / Timeline — month grid, drag activities between days, quick time edit | `/trips/[id]/calendar` |
-| 11 | Shared / Public Itinerary — public URL, read-only, Copy Trip, social share | `/share/[token]` |
-| 12 | Profile / Settings — edit profile, language, saved destinations, delete account | `/profile` |
-| 13 | Admin / Analytics — users, trips, top cities & activities, user management | `/admin` |
+### 🦁 1. India & Gujarat Heritage Circuits (Priority Focus)
+- **Gujarat Golden Trail**: Ahmedabad (UNESCO World Heritage), Kevadia (Statue of Unity & Laser Show), and Dhordo (White Rann of Kutch & Rann Utsav).
+- **Curated Indian Destinations**: Delhi, Jaipur, Udaipur, Goa, Mumbai, Varanasi, Bangalore.
+- **Complete INR (₹) Engine**: Every price, accommodation tier, activity entry fee, train fare, and budget breakdown is modeled realistically in **Indian Rupees (₹)**.
 
-## Tech stack
+### 🧠 2. GlobeTrotter Smart Suite & Travel Co-Pilot
+Accessible from the top navigation and floating action button across all pages:
+- 🤖 **Smart AI Travel Co-Pilot**: Instant custom recommendations for itineraries, budget hacks, and culinary secrets.
+- 💱 **Real-Time Multi-Currency Converter**: Live converter between INR (₹), USD ($), EUR (€), GBP (£), AED, and JPY.
+- 🌤️ **Destination Climate & Gear Advisor**: Simulated weather forecast and dynamic packing checklist.
+- 🚆 **Route & Transit Visualizer**: Haversine distance calculator with flight, train, and road duration/fare estimations.
+- 🧮 **Group Expense & Bill Splitter**: Equal per-person calculation with emergency buffer allocations.
+- 🏆 **Gamified Trophy Vault**: Unlockable glowing badges earned through itinerary planning.
+- 🎧 **Ambient Travel Soundscapes**: High-quality relaxing sound players (Goa Waves, Kutch Night Winds, Parisian Cafe Rain).
+- 🛡️ **Global Emergency Vault**: 24/7 helpline directory for police, medical, and tourist consulates.
+- 📝 **Digital Travel Journal**: In-app diary for preserving daily memories.
 
-- **Next.js 15** (App Router, TypeScript, server components + client islands)
-- **Prisma 6 + SQLite** — relational models: `User`, `City`, `Activity`, `Trip`, `Stop`, `StopActivity`
-- **Auth**: JWT (HS256, `jose`) in an httpOnly cookie, bcryptjs password hashing
-- **Cost engine** (`src/lib/estimates.ts`): per-person daily rates (stay/meals/local transport)
-  scaled by each city's cost index (1–5), plus inter-city travel estimated from haversine distance
-  (train < 500 km, flight beyond), plus activity costs → per-day totals, donut/bar charts,
-  over-budget day detection vs. `budget ÷ days`
-- **Charts**: hand-rolled SVG (donut + per-day bars), drawn-in on mount — zero chart dependencies
-- **Drag & drop**: native HTML5 DnD for moving activities between calendar days
+### 🌐 3. 3D & Dynamic Motion System
+- **Interactive Node Graph Background**: 45 floating nodes with continuous glowing energy pulses traveling between random nodes and mouse parallax response.
+- **Interactive 3D Revolving Globe**: Canvas globe that rotates and reacts to cursor movement.
+- **Handcrafted Zero-Dependency SVG Charts**: Donut category breakdowns and animated daily spending bar charts.
+- **Drag-and-Drop Calendar**: HTML5 DnD support to reschedule activities between days in real time.
 
-## Design & motion
+### ⚡ 4. 1-Click Demo Login System
+No typing needed — test the app with 3 pre-seeded accounts loaded with rich multi-city itineraries:
 
-- **Real photography** for all 31 cities (`public/images/cities/`), with automatic
-  color/emoji-tile fallback when a photo is missing or fails to load
-- **Typography**: Inter (body) + Plus Jakarta Sans (display), self-served via Google Fonts
-- **Motion system** (`src/app/globals.css` + `src/components/Anim.tsx`):
-  - route-change page transitions (`PageTransition`)
-  - scroll-triggered reveals with stagger (`Reveal`)
-  - counting-up stat numbers (`CountUp`)
-  - Ken Burns photo breathing on heroes, hover zoom on photo tiles
-  - lift/press micro-interactions on cards, buttons, chips, calendar cells, activity rows
-  - animated donut (draws in) and per-day bars (grow with stagger), pulsing drag targets
-  - `prefers-reduced-motion` respected throughout
+| Profile | Role | Credentials | Seeded Data & Itineraries |
+|---|---|---|---|
+| **🦁 Aarav Sharma** | Gujarat Explorer | `demo@globetrotter.app` / `demo123` | **3 Detailed Trips** (Vibrant Gujarat Circuit with 12 activities, Golden Triangle, Goa Coastal Sunsets) + 6 Saved Cities |
+| **🎒 Priya Patel** | Solo Backpacker | `priya@globetrotter.app` / `demo123` | **2 Detailed Trips** (Spiritual Varanasi & Ganga Ghats Trail, Rajasthan Backpacking) + 5 Saved Cities |
+| **👑 Globe Admin** | Administrator | `admin@globetrotter.app` / `admin123` | **Full Admin Dashboard Access** (`/admin`), platform analytics, system stats & Grand Pan-India Expedition |
 
-## Run it
+---
+
+## 📱 Application Screens & Routes
+
+| # | Screen | Route | Description |
+|---|---|---|---|
+| 1 | **Home / Landing** | `/` | Hero presentation, interactive simulator, features showcase, and CTA |
+| 2 | **Login & 1-Click Demo** | `/login` | Split-screen card layout with instant 1-click accounts and credentials |
+| 3 | **Sign Up** | `/signup` | Responsive account registration |
+| 4 | **Dashboard** | `/dashboard` | Greeting banner, active trips, 3 stat counters, and trending destinations |
+| 5 | **My Trips** | `/trips` | Grid of planned journeys with quick actions |
+| 6 | **Create Trip** | `/trips/new` | Multi-step trip creator with dates, covers, and budget caps |
+| 7 | **Itinerary Builder** | `/trips/[id]/builder` | Add/reorder stops, assign activities day-by-day, view budgets |
+| 8 | **Day-by-Day Itinerary** | `/trips/[id]/itinerary` | Chronological itinerary breakdown with cost summaries |
+| 9 | **Trip Budget & Costs** | `/trips/[id]/budget` | Handcrafted SVG Donut chart, daily bar charts, over-budget indicators |
+| 10 | **Trip Calendar & DnD** | `/trips/[id]/calendar` | Interactive visual calendar with drag-and-drop activity scheduling |
+| 11 | **City Discovery** | `/cities` | Filter 20+ destinations by region/country with glassmorphic cards |
+| 12 | **Activity Explorer** | `/activities` | Search 34+ activities by budget, duration, and category tags |
+| 13 | **Public Shared Trip** | `/share/[token]` | Read-only shared trip view with 1-click "Copy Trip" feature |
+| 14 | **Profile & Settings** | `/profile` | Manage account preferences, saved cities, and language settings |
+| 15 | **Admin & Analytics** | `/admin` | Real-time platform metrics, user management, and top destination stats |
+
+---
+
+## 🛠️ Technology Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router, Server Components & Client Islands, TypeScript)
+- **Database & ORM**: [SQLite](https://www.sqlite.org/) with [Prisma 6](https://www.prisma.io/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) + Handcrafted CSS Design Tokens (`DESIGN_SYSTEM.md`)
+- **Icons**: [Bootstrap Icons](https://icons.getbootstrap.com/)
+- **Authentication**: JWT (`jose`, HS256) stored in `httpOnly` secure cookies with bcryptjs password hashing
+- **Charts**: Custom hand-rolled SVG charts with mount draw animations (0 third-party chart bloat)
+- **Motion**: Custom IntersectionObserver reveals, staggered count-up tickers, and HTML5 Canvas engines
+
+---
+
+## 🗄️ Relational Data Model
+
+```
+User (1) ──── (N) Trip (1) ──── (N) Stop (1) ──── (N) StopActivity (N) ──── (1) Activity
+ │                                   │                                         │
+ │                                   └────────────── (N) City (1) ─────────────┘
+ └─────────────────────── (N) SavedCity (N) ──────────┘
+```
+
+---
+
+## 🚀 Getting Started Locally
+
+### 1. Prerequisites
+- Node.js 18.x or 20.x installed
+- npm / yarn / pnpm
+
+### 2. Installation & Setup
 
 ```bash
-npm install            # also runs prisma generate (postinstall)
-npx prisma db push     # create the SQLite schema
-node prisma/seed.js    # 31 cities, 135 activities, demo + admin users, sample public trip
-npm run dev            # http://localhost:3000
+# 1. Clone the repository
+git clone https://github.com/create2learn7238/Oddo-x-LDCE.git
+cd Oddo-x-LDCE
+
+# 2. Install dependencies (runs prisma generate automatically)
+npm install
+
+# 3. Push the Prisma database schema to SQLite
+npx prisma db push
+
+# 4. Seed the database with 20 cities, 34 activities, and 3 demo accounts
+node prisma/seed.js
+
+# 5. Start the development server
+npm run dev
 ```
 
-### Demo accounts
+Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
-| Role | Email | Password |
-|------|-------|----------|
-| Traveler (with a public 10-day India trip) | `demo@globetrotter.app` | `demo123` |
-| Admin (analytics dashboard) | `admin@globetrotter.app` | `admin123` |
+---
 
-Public demo trip: **`/share/india-explorer`**
+## 📡 REST API Reference
 
-## API overview
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/auth/login` | Authenticate user & set JWT cookie |
+| `POST` | `/api/auth/signup` | Register new user account |
+| `POST` | `/api/auth/logout` | Clear session cookie |
+| `GET`  | `/api/auth/stale` | Safety redirect & cookie cleanup for reset sessions |
+| `GET`  | `/api/trips/mine` | Fetch logged-in user's trips |
+| `POST` | `/api/trips` | Create a new trip |
+| `PATCH`/`DELETE` | `/api/trips/[id]` | Edit details or delete a trip |
+| `POST` | `/api/trips/[id]/share` | Toggle public visibility and generate share token |
+| `POST` | `/api/trips/[id]/copy` | Deep-clone a public trip into user's account |
+| `POST` | `/api/stops` | Add a city destination stop to a trip |
+| `PATCH`/`DELETE` | `/api/stops/[id]` | Update dates/notes or delete stop |
+| `POST` | `/api/stops/for-activity` | Attach an activity to trip (auto-creates stop if needed) |
+| `POST` | `/api/stop-activities` | Schedule an activity on a specific day |
+| `PATCH`/`DELETE` | `/api/stop-activities/[id]` | Reschedule, adjust time, or remove activity |
+| `POST` | `/api/cities/[id]/save` | Toggle city in user's saved list |
+| `PATCH`/`DELETE` | `/api/profile` | Update profile information or delete account |
+| `DELETE` | `/api/admin/users` | Admin account removal |
 
-| Method | Route | Purpose |
-|--------|-------|---------|
-| POST | `/api/auth/signup` · `/login` · `/forgot` · `/logout` | Auth |
-| GET | `/api/trips/mine` | User's trips (id+name) |
-| POST | `/api/trips` | Create trip |
-| PATCH/DELETE | `/api/trips/[id]` | Update / delete trip |
-| POST | `/api/trips/[id]/share` | Toggle public, mint/rotate share token |
-| POST | `/api/trips/[id]/copy` | Deep-copy a trip (used by "Copy Trip") |
-| POST | `/api/stops` | Add a stop (city + dates) |
-| PATCH/DELETE | `/api/stops/[id]` | Edit dates/notes, reorder (`sequence`), delete |
-| POST | `/api/stops/for-activity` | Attach activity to a trip (auto-creates the stop if missing) |
-| POST | `/api/stop-activities` | Assign activity to a stop-day |
-| PATCH/DELETE | `/api/stop-activities/[id]` | Move day / change time / remove |
-| POST | `/api/cities/[id]/save` | Toggle saved destination |
-| PATCH/DELETE | `/api/profile` | Update profile / delete account |
-| DELETE | `/api/admin/users` | Admin removes a user |
+---
 
-## Data model (relational)
+## 👥 Contributors & Hackathon Team
 
-```
-User 1─N Trip 1─N Stop 1─N StopActivity N─1 Activity
-                          │                  │
-                          └──── N─1 City ◄───
-User N─N City (saved destinations)
-```
+- **Event**: Odoo x LDCE Hackathon 2026
+- **Repository**: [https://github.com/create2learn7238/Oddo-x-LDCE](https://github.com/create2learn7238/Oddo-x-LDCE)
 
-`StopActivity` snapshots the per-person `cost` at assignment time; day placement is
-`dayOffset` relative to the stop's arrival plus an optional `startTime`.
-
-## Project layout
-
-```
-prisma/           schema.prisma + seed.js (31 cities, 135 activities, demo data)
-src/lib/          db · auth (JWT cookies) · dates · estimates (cost engine) · data (queries)
-src/components/   client islands: builder, calendar, itinerary, city/activity search, charts…
-src/app/          app-router pages + /api route handlers
-```
-
-## Notes & demo-mode shortcuts
-
-- Cost figures are **estimates per person** (clearly labelled in the UI), not live prices.
-- "Forgot password" is a demo stub (no email service) — it reports success without revealing
-  whether the account exists.
-- Cover images use a URL field; emoji + gradient are the built-in fallback so the demo looks
-  good with zero external assets.
-- Language preference is stored and shown, full i18n is out of scope.
+---
+*Built with ❤️ for wanderers, travelers, and dreamers.*
