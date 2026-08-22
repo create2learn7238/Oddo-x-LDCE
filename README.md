@@ -12,9 +12,12 @@ GlobeTrotter is a full-featured, responsive, multi-city travel planning platform
 - 🦁 **Vibrant Gujarat & India Focus:** Curated destinations across Gujarat (Ahmedabad, Rann of Kutch, Statue of Unity, Gir Lion Safari, Somnath, Dwarka) and global hubs (Paris, Tokyo, Rome).
 - 🎨 **6 Multi-Theme Engine:** Midnight Cyber, Vibrant Gujarat Gold, Ocean Sapphire, Emerald Forest, Sunset Mirage, and Luxe Light.
 - 💱 **Live Currency Converter:** Real-time conversion across USD ($), INR (₹), EUR (€), GBP (£), AED (د.إ), and JPY (¥).
+- 🧭 **Interactive Route & Transit Visualizer:** Visual flight, train, and road connections across travel stops.
+- ☀️ **Weather Forecast & Packing Intelligence:** Real-time simulated climate and tailored packing advice.
+- 👥 **Group Expense Splitter:** Individual per-person share calculator with emergency buffers.
 - 🪄 **1-Click Smart Itinerary Generator:** Instant pre-planned routes for Gujarat, Rajasthan, and Europe.
 - 💰 **Budget & Cost Analytics:** Interactive Recharts breakdown by category and city with overbudget alerts.
-- 🎒 **Packing Checklist:** Built-in travel essentials checklist per trip.
+- 🎒 **Packing Checklist & Travel Vault:** Built-in packing checklist and offline emergency helplines.
 - 🖨️ **Print / PDF Export & Public Sharing:** Clean print-ready travel documents and shareable trip links.
 - 📊 **Admin Dashboard:** Platform stats, user management, and trend charts.
 
@@ -22,7 +25,7 @@ GlobeTrotter is a full-featured, responsive, multi-city travel planning platform
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** React 19, Vite, React Router v7, Recharts, Lucide Icons, Vanilla CSS Design System
+- **Frontend:** React 19, Vite, React Router v7, Recharts, Lucide Icons, Custom Multi-Theme CSS Engine
 - **Backend:** Node.js, Express.js, CORS
 - **Database:** PostgreSQL (Neon Serverless Cloud DB)
 
@@ -32,7 +35,6 @@ GlobeTrotter is a full-featured, responsive, multi-city travel planning platform
 
 ### 1. Install Dependencies
 ```bash
-cd globetrotter
 npm install
 ```
 
