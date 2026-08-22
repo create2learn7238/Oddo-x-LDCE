@@ -9,6 +9,7 @@ import JetLagPlanner from '../components/JetLagPlanner'
 import TravelBadges from '../components/TravelBadges'
 import DocumentExpiryTracker from '../components/DocumentExpiryTracker'
 import SafetyFirstAidAI from '../components/SafetyFirstAidAI'
+import PassportStampsVault from '../components/PassportStampsVault'
 import { Database } from 'lucide-react'
 
 export default function Profile() {
@@ -102,6 +103,9 @@ export default function Profile() {
 
       {/* Explorer Badges & Travel Milestones */}
       <TravelBadges />
+
+      {/* Official Traveler Passport Book & Rubber Stamp Vault */}
+      <PassportStampsVault />
 
       {/* Tabs Row with Backup Action */}
       <div className="flex-between" style={{ marginBottom:'var(--space-6)', flexWrap:'wrap', gap:'var(--space-3)' }}>

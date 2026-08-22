@@ -7,6 +7,7 @@ import TravelerReviews from '../components/TravelerReviews'
 import CurrencyTicker from '../components/CurrencyTicker'
 import AmbientSoundscape from '../components/AmbientSoundscape'
 import TravelPersonalityQuiz from '../components/TravelPersonalityQuiz'
+import SkeuoPhotoGallery from '../components/SkeuoPhotoGallery'
 import {
   Plus, Compass, MapPin, Sparkles, TrendingUp,
   Calendar, CheckCircle, ArrowRight, Heart, Plane, Shield
@@ -97,6 +98,9 @@ export default function Dashboard() {
     <div className="page-container animate-fadeIn">
       {/* Live FX Rates Ticker */}
       <CurrencyTicker />
+
+      {/* Tactile Polaroid Travel Gallery */}
+      <SkeuoPhotoGallery />
 
       {/* Top Welcome Hero Banner */}
       <div style={{
