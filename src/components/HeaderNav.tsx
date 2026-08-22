@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { SmartToolsModal } from './SmartToolsModal';
 
 interface HeaderNavProps {
@@ -15,8 +16,25 @@ interface HeaderNavProps {
 }
 
 export function HeaderNav({ userSession }: HeaderNavProps) {
+  const pathname = usePathname();
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [imgErr, setImgErr] = useState(false);
+
+  const isActive = (href: string) => {
+    if (!pathname) return false;
+    if (href === '/') return pathname === '/';
+    return pathname === href || pathname.startsWith(href + '/');
+  };
+
+  const userInitials = userSession?.name
+    ? userSession.name
+        .split(' ')
+        .map((p) => p[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase()
+    : 'GT';
 
   return (
     <>
@@ -29,18 +47,18 @@ export function HeaderNav({ userSession }: HeaderNavProps) {
             GlobeTrotter
           </Link>
 
-          {/* Desktop Navigation Links */}
+          {/* Desktop Navigation Links with Live Path Pill Shifting */}
           <div className="hidden md:flex navlinks">
-            <Link href="/dashboard" className="navlink">
+            <Link href="/dashboard" className={`navlink ${isActive('/dashboard') ? 'active' : ''}`}>
               <i className="bi bi-grid-fill"></i> Dashboard
             </Link>
-            <Link href="/trips" className="navlink">
+            <Link href="/trips" className={`navlink ${isActive('/trips') ? 'active' : ''}`}>
               <i className="bi bi-briefcase-fill"></i> My Trips
             </Link>
-            <Link href="/cities" className="navlink">
+            <Link href="/cities" className={`navlink ${isActive('/cities') ? 'active' : ''}`}>
               <i className="bi bi-building"></i> Cities
             </Link>
-            <Link href="/activities" className="navlink">
+            <Link href="/activities" className={`navlink ${isActive('/activities') ? 'active' : ''}`}>
               <i className="bi bi-ticket-perforated"></i> Activities
             </Link>
           </div>
@@ -62,17 +80,22 @@ export function HeaderNav({ userSession }: HeaderNavProps) {
             ) : (
               <div className="flex items-center gap-3">
                 {userSession.isAdmin && (
-                  <Link href="/admin" className="hidden sm:flex navlink text-xs font-bold text-teal-700">
+                  <Link href="/admin" className={`hidden sm:flex navlink text-xs font-bold text-teal-700 ${isActive('/admin') ? 'active' : ''}`}>
                     <i className="bi bi-speedometer2"></i> Admin
                   </Link>
                 )}
-                <Link href="/profile" title="Profile & settings">
-                  {userSession.photo ? (
+                <Link href="/profile" title="Profile & settings" className="flex items-center">
+                  {userSession.photo && !imgErr ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={userSession.photo} alt="" className="avatar object-cover" />
+                    <img
+                      src={userSession.photo}
+                      alt={userSession.name}
+                      className="avatar object-cover border-2 border-amber-500/40"
+                      onError={() => setImgErr(true)}
+                    />
                   ) : (
-                    <div className="avatar">
-                      {userSession.name ? userSession.name.split(' ').map((p) => p[0]).slice(0, 2).join('').toUpperCase() : 'GT'}
+                    <div className="avatar bg-gradient-to-br from-amber-600 to-amber-800 text-white font-black shadow-md border-2 border-white">
+                      {userInitials}
                     </div>
                   )}
                 </Link>
@@ -92,16 +115,32 @@ export function HeaderNav({ userSession }: HeaderNavProps) {
         {/* Mobile Dropdown Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden bg-white border-b border-slate-200 p-4 space-y-2 animate-fadeUp">
-            <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-xl text-sm font-bold text-slate-800 hover:bg-teal-50 hover:text-teal-700">
+            <Link
+              href="/dashboard"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block px-3 py-2 rounded-xl text-sm font-bold ${isActive('/dashboard') ? 'bg-teal-100 text-teal-800' : 'text-slate-800 hover:bg-teal-50'}`}
+            >
               <i className="bi bi-grid-fill mr-2"></i> Dashboard
             </Link>
-            <Link href="/trips" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-xl text-sm font-bold text-slate-800 hover:bg-teal-50 hover:text-teal-700">
+            <Link
+              href="/trips"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block px-3 py-2 rounded-xl text-sm font-bold ${isActive('/trips') ? 'bg-teal-100 text-teal-800' : 'text-slate-800 hover:bg-teal-50'}`}
+            >
               <i className="bi bi-briefcase-fill mr-2"></i> My Trips
             </Link>
-            <Link href="/cities" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-xl text-sm font-bold text-slate-800 hover:bg-teal-50 hover:text-teal-700">
+            <Link
+              href="/cities"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block px-3 py-2 rounded-xl text-sm font-bold ${isActive('/cities') ? 'bg-teal-100 text-teal-800' : 'text-slate-800 hover:bg-teal-50'}`}
+            >
               <i className="bi bi-building mr-2"></i> Cities
             </Link>
-            <Link href="/activities" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-xl text-sm font-bold text-slate-800 hover:bg-teal-50 hover:text-teal-700">
+            <Link
+              href="/activities"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block px-3 py-2 rounded-xl text-sm font-bold ${isActive('/activities') ? 'bg-teal-100 text-teal-800' : 'text-slate-800 hover:bg-teal-50'}`}
+            >
               <i className="bi bi-ticket-perforated mr-2"></i> Activities
             </Link>
             {!userSession && (
