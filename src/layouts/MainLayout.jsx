@@ -5,6 +5,7 @@ import {
   Globe, LayoutDashboard, Map, Plus, Search, Activity,
   DollarSign, User, Shield, LogOut, Menu, X, Palette, Sparkles, Heart, Check
 } from 'lucide-react'
+import AIChatAssistant from '../components/AIChatAssistant'
 
 const navItems = [
   { label: 'Dashboard',    path: '/dashboard',   icon: LayoutDashboard },
@@ -276,6 +277,9 @@ export default function MainLayout() {
           </div>
         </div>
       )}
+
+      {/* Global AI Travel Concierge Floating Chat */}
+      <AIChatAssistant />
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { Search, Star, DollarSign, Globe, Filter, Plus, MapPin, Sparkles } from 
 import DestinationCard from '../components/DestinationCard'
 import InteractiveMap from '../components/InteractiveMap'
 import CuisineGuide from '../components/CuisineGuide'
+import FestivalCalendar from '../components/FestivalCalendar'
 import { useApp } from '../context/AppContext'
 
 const REGIONS = ['All', 'India', 'Europe', 'Asia', 'Americas', 'Middle East']
@@ -139,8 +140,13 @@ export default function CitySearch() {
         </div>
       )}
 
-      {/* Regional Cuisine & Street Food Guide */}
+      {/* Gujarat & India Cultural Festivals Calendar */}
       <div style={{ marginTop: 'var(--space-10)' }}>
+        <FestivalCalendar />
+      </div>
+
+      {/* Regional Cuisine & Street Food Guide */}
+      <div style={{ marginTop: 'var(--space-8)' }}>
         <CuisineGuide />
       </div>
     </div>
