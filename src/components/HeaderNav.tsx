@@ -27,14 +27,23 @@ export function HeaderNav({ userSession }: HeaderNavProps) {
     return pathname === href || pathname.startsWith(href + '/');
   };
 
-  const userInitials = userSession?.name
-    ? userSession.name
-        .split(' ')
-        .map((p) => p[0])
-        .slice(0, 2)
-        .join('')
-        .toUpperCase()
-    : 'GT';
+  // Ensure initials are strictly 2 uppercase letters max
+  const getInitials = (nameStr?: string) => {
+    if (!nameStr) return 'GT';
+    const parts = nameStr.trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return 'GT';
+    if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  };
+
+  const userInitials = getInitials(userSession?.name);
+
+  // Check if photo is a valid URL starting with http://, https://, or /
+  const validPhoto =
+    userSession?.photo &&
+    (userSession.photo.startsWith('http://') || userSession.photo.startsWith('https://') || userSession.photo.startsWith('/'))
+      ? userSession.photo
+      : null;
 
   return (
     <>
@@ -85,16 +94,16 @@ export function HeaderNav({ userSession }: HeaderNavProps) {
                   </Link>
                 )}
                 <Link href="/profile" title="Profile & settings" className="flex items-center">
-                  {userSession.photo && !imgErr ? (
+                  {validPhoto && !imgErr ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={userSession.photo}
+                      src={validPhoto}
                       alt={userSession.name}
-                      className="avatar object-cover border-2 border-amber-500/40"
+                      className="w-10 h-10 rounded-full object-cover border-2 border-amber-500/50 shadow-md"
                       onError={() => setImgErr(true)}
                     />
                   ) : (
-                    <div className="avatar bg-gradient-to-br from-amber-600 to-amber-800 text-white font-black shadow-md border-2 border-white">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-600 to-amber-800 text-white font-black text-xs flex items-center justify-center shadow-md border-2 border-white uppercase tracking-wider shrink-0">
                       {userInitials}
                     </div>
                   )}
