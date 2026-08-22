@@ -4,6 +4,7 @@ import { readSession } from '@/lib/auth';
 import { ActiveNav } from '@/components/ActiveNav';
 import { PageTransition } from '@/components/Anim';
 import { HeaderNav } from '@/components/HeaderNav';
+import { FloatingActionBar } from '@/components/FloatingActionBar';
 
 export const metadata: Metadata = {
   title: 'GlobeTrotter — Personalized Travel Planning Platform',
@@ -33,6 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ActiveNav />
         <HeaderNav userSession={session} />
         <PageTransition>{children}</PageTransition>
+        <FloatingActionBar />
       </body>
     </html>
   );
