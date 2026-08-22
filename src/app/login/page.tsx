@@ -1,5 +1,4 @@
 import AuthForms from '@/components/AuthForms';
-import Link from 'next/link';
 import { HERO_PHOTOS } from '@/lib/photos';
 
 export default function LoginPage() {
@@ -7,7 +6,7 @@ export default function LoginPage() {
     <div style={{ minHeight: '100vh', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
       <div className="auth-hero">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={HERO_PHOTOS.auth} alt="Bali rice terraces at golden hour" className="hero-photo" />
+        <img src={HERO_PHOTOS.auth} alt="Scenic travel destination" className="hero-photo" />
         <div className="hero-scrim" style={{ background: 'linear-gradient(115deg, rgba(15,118,110,0.93) 0%, rgba(13,148,136,0.82) 40%, rgba(15,23,42,0.6) 100%)' }} />
         <div style={{ position: 'relative', zIndex: 2 }}>
           <div style={{ fontSize: 46, marginBottom: 18 }} className="float-emoji">🌍✈️</div>
@@ -44,15 +43,13 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+      
       <div style={{ display: 'grid', placeItems: 'center', padding: 32 }}>
-        <div className="auth-card-in">
-          <div className="card card-pad" style={{ width: '100%', maxWidth: 400 }}>
-            <h2 style={{ fontSize: 25, marginBottom: 4 }}>Welcome back</h2>
-            <p className="muted mb-16" style={{ fontSize: 14.5 }}>Log in to pick up where your journey left off.</p>
+        <div className="auth-card-in" style={{ width: '100%', maxWidth: 460 }}>
+          <div className="card card-pad rounded-3xl border border-slate-200 shadow-xl bg-white/95 backdrop-blur-md">
+            <h2 className="text-2xl font-black font-display text-slate-900 mb-1">Welcome back</h2>
+            <p className="text-xs font-semibold text-slate-500 mb-6">Log in to pick up where your journey left off.</p>
             <AuthForms mode="login" />
-            <p className="faint mt-16">
-              No account? Hit <b>“Use demo account”</b> — or try <b>demo@globetrotter.app</b> / <b>demo123</b>
-            </p>
           </div>
         </div>
       </div>
